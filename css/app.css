@@ -627,8 +627,11 @@ h3 { font: 700 14px/1.25 var(--font-display); }
 .upload-zone svg { width: 28px; height: 28px; margin-bottom: 6px; color: var(--muted); }
 
 /* ---- OTP ---- */
-.otp-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.otp-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
 .otp-cell {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   height: 52px;
   text-align: center;
   border: 1.5px solid var(--border);
