@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help & Support — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .help-hero {
+      margin: 0 16px 20px;
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(42% 0.09 250) 100%);
+      border-radius: 18px;
+      padding: 20px;
+      color: #fff;
+    }
+    .help-hero h2 { font-size: 17px; font-weight: 800; }
+    .help-hero p { font-size: 12px; opacity: .7; margin-top: 4px; line-height: 1.5; }
+    .help-hero .online-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+    .help-hero .online-dot { width: 6px; height: 6px; border-radius: 50%; background: oklch(72% 0.18 145); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 16px;
+      margin-bottom: 20px;
+    }
+    .contact-btn {
+      background: var(--surface-strong);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .contact-btn:hover { background: var(--primary-soft); border-color: oklch(75% 0.05 236); }
+    .contact-btn .cb-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+    .cb-call  { background: oklch(93% 0.05 150); }
+    .cb-wa    { background: oklch(93% 0.05 150); }
+    .cb-email { background: oklch(94% 0.04 236); }
+    .cb-chat  { background: oklch(94% 0.04 265); }
+    .contact-btn h4 { font-size: 13px; font-weight: 700; }
+    .contact-btn p { font-size: 11px; color: var(--muted); text-align: center; }
+
+    .section-card {
+      margin: 0 16px 16px;
+      background: var(--surface-strong);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-header h3 { font-size: 14px; font-weight: 800; }
+
+    .ticket-form { padding: 16px; }
+    .tf-field { margin-bottom: 13px; }
+    .tf-field label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 5px; }
+    .tf-field select, .tf-field input, .tf-field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--fg);
+      outline: none;
+      transition: border-color .15s;
+      -webkit-appearance: none;
+    }
+    .tf-field select:focus, .tf-field input:focus, .tf-field textarea:focus { border-color: var(--accent); }
+    .tf-field textarea { min-height: 90px; resize: none; }
+    .tf-field .attach-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* FAQ accordions */
+    .faq-acc {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-acc:last-child { border-bottom: none; }
+    .faq-acc summary {
+      list-style: none;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-acc summary::after { content: '›'; font-size: 18px; color: var(--muted); transition: transform .2s; }
+    .faq-acc[open] summary::after { transform: rotate(90deg); }
+    .faq-acc summary::-webkit-details-marker { display: none; }
+    .faq-acc-body { padding: 0 16px 16px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: oklch(93% 0.05 150);
+      color: oklch(38% 0.14 150);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0; padding-bottom:90px">
+
+      <!-- Hero -->
+      <div style="padding:16px 16px 0">
+        <h1 style="font-size:20px">Help & support</h1>
+        <p class="subtle" style="margin-top:3px">We're here to help you resolve issues quickly</p>
+      </div>
+
+      <div class="help-hero" style="margin-top:14px">
+        <h2>Support team is online</h2>
+        <p>Typical response time is under 2 hours. For urgent session-related issues, call us directly.</p>
+        <div class="online-badge"><div class="online-dot"></div>Available Mon–Sat, 9 AM – 8 PM</div>
+      </div>
+
+      <!-- Quick contact -->
+      <div class="contact-grid">
+        <button class="contact-btn" data-toast="Calling +91 80009 12345">
+          <div class="cb-icon cb-call">📞</div>
+          <h4>Call support</h4>
+          <p>+91 80009 12345</p>
+        </button>
+        <button class="contact-btn" data-toast="Opening WhatsApp">
+          <div class="cb-icon cb-wa">💬</div>
+          <h4>WhatsApp</h4>
+          <p>Chat with us now</p>
+        </button>
+        <button class="contact-btn" data-toast="Opening email">
+          <div class="cb-icon cb-email">✉️</div>
+          <h4>Email us</h4>
+          <p>support@physiobuddies.com</p>
+        </button>
+        <button class="contact-btn" data-toast="Opening in-app chat">
+          <div class="cb-icon cb-chat">🤖</div>
+          <h4>Live chat</h4>
+          <p>In-app assistant</p>
+        </button>
+      </div>
+
+      <!-- Ticket form -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3>Raise a support ticket</h3>
+          <span class="status-pill"><div class="status-dot"></div>Usually &lt;2 hrs</span>
+        </div>
+        <div class="ticket-form">
+          <div class="tf-field">
+            <label>Issue type</label>
+            <select>
+              <option value="">Select an issue type…</option>
+              <option>Appointment problem</option>
+              <option>Payment / payout issue</option>
+              <option>Document verification</option>
+              <option>Patient dispute</option>
+              <option>App technical issue</option>
+              <option>Profile or content issue</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="tf-field">
+            <label>Related appointment (optional)</label>
+            <input type="text" placeholder="e.g. PB-2406-AMV · Amit Verma · 4 Jun" />
+          </div>
+          <div class="tf-field">
+            <label>Describe the issue</label>
+            <textarea placeholder="Describe what happened, when it occurred, and any steps you already tried…"></textarea>
+          </div>
+          <div class="tf-field">
+            <label>Attachment (optional)</label>
+            <button class="attach-btn" data-toast="File picker opened">📎 Attach screenshot or document</button>
+          </div>
+          <button class="btn w-full" data-toast="Support ticket submitted ✓ We'll respond within 2 hours">Submit ticket</button>
+        </div>
+      </div>
+
+      <!-- Active tickets -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3>My tickets</h3>
+          <span class="chip info">1 open</span>
+        </div>
+        <div style="padding:14px 16px; display:flex; align-items:flex-start; gap:12px; border-bottom:1px solid var(--border)">
+          <div style="flex:1">
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:5px">
+              <span class="chip pending">Open</span>
+              <span class="subtle">#TKT-4821 · 2 Jun 2024</span>
+            </div>
+            <h4 style="font-size:13px;font-weight:700">Payment delay for 28 May sessions</h4>
+            <p class="subtle" style="margin-top:3px">Payout for 4 sessions on 28 May has not been received. Bank confirmed no credit.</p>
+          </div>
+        </div>
+        <div style="padding:14px 16px; display:flex; align-items:flex-start; gap:12px">
+          <div style="flex:1">
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:5px">
+              <span class="chip active">Resolved</span>
+              <span class="subtle">#TKT-4612 · 15 May 2024</span>
+            </div>
+            <h4 style="font-size:13px;font-weight:700">Document re-upload assistance</h4>
+            <p class="subtle" style="margin-top:3px">Helped re-upload registration certificate. Document now under review.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="section-card" style="margin-bottom:20px">
+        <div class="section-header">
+          <h3>Common questions</h3>
+        </div>
+        <details class="faq-acc">
+          <summary>How do I start a session using OTP?</summary>
+          <div class="faq-acc-body">Navigate to the appointment, tap "Start session", then ask the patient for the 6-digit OTP shown on their Physiobuddies app. Enter it to unlock the active session screen. The OTP expires in 10 minutes.</div>
+        </details>
+        <details class="faq-acc">
+          <summary>When are payouts processed?</summary>
+          <div class="faq-acc-body">Payouts are processed every Monday for sessions completed the previous week (Monday–Sunday). Funds typically reach your bank account within 1–2 business days. You can track all pending and settled amounts in the Earnings section.</div>
+        </details>
+        <details class="faq-acc">
+          <summary>Why was my document rejected?</summary>
+          <div class="faq-acc-body">Documents are rejected when they are blurry, incomplete, expired, or the text is not clearly legible. Check the rejection reason in Verification → Documents and re-upload a clear, high-resolution scan (minimum 300 DPI). JPEG, PNG, or PDF formats are accepted.</div>
+        </details>
+        <details class="faq-acc">
+          <summary>How do I update my availability?</summary>
+          <div class="faq-acc-body">Go to Profile → Availability. You can set weekly working hours, block specific dates (e.g. holidays), and differentiate between clinic and home visit slots. Changes take effect immediately on your public profile.</div>
+        </details>
+        <details class="faq-acc">
+          <summary>What happens if a patient cancels last minute?</summary>
+          <div class="faq-acc-body">Cancellations within 2 hours of the session time are subject to the platform's cancellation policy. If the patient cancels within 1 hour, you may be eligible for a 50% session fee as compensation. Contact support if you believe you were not compensated correctly.</div>
+        </details>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "profile" });</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transactions – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen">
+
+      <div class="page-title">
+        <div style="display:flex;align-items:center;gap:10px">
+          <a class="icon-btn" href="earnings.html">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="m15 18-6-6 6-6"/></svg>
+          </a>
+          <h1>Transactions</h1>
+        </div>
+        <button class="icon-btn" data-toast="Statement downloaded as PDF" aria-label="Download statement">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+
+      <!-- Payout summary cards matching reference -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div style="background:oklch(26% .07 238);border-radius:12px;padding:14px 16px">
+          <p style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;margin-bottom:6px">Total Earning</p>
+          <strong style="font-size:20px;font-weight:900;color:white">₹ 82,400</strong>
+        </div>
+        <div style="background:oklch(26% .07 238);border-radius:12px;padding:14px 16px">
+          <p style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;margin-bottom:6px">Platform Fee (18%)</p>
+          <strong style="font-size:20px;font-weight:900;color:white">₹ 14,832</strong>
+        </div>
+        <div style="background:oklch(26% .07 238);border-radius:12px;padding:14px 16px">
+          <p style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;margin-bottom:6px">Pending Payout</p>
+          <strong style="font-size:20px;font-weight:900;color:white">₹ 12,800</strong>
+        </div>
+        <div style="background:oklch(26% .07 238);border-radius:12px;padding:14px 16px">
+          <p style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;margin-bottom:6px">Cash Received</p>
+          <strong style="font-size:20px;font-weight:900;color:rgba(255,255,255,.5)">N/A</strong>
+        </div>
+      </div>
+
+      <!-- Pay pending CTA -->
+      <button class="btn secondary" style="width:100%;margin-bottom:14px;border:1.5px solid var(--success);color:var(--success);display:flex;align-items:center;justify-content:center;gap:8px" data-toast="Payment link sent — Rs 12,800 pending">
+        Pay Pending Amount
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </button>
+
+      <!-- Search + filter row -->
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="position:relative;flex:1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" style="position:absolute;left:11px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="input" style="padding-left:34px;min-height:38px;font-size:13px" placeholder="Search patient, reference ID…" />
+        </div>
+        <select class="select" style="width:auto;min-height:38px;padding:0 10px;font-size:12px;flex:0 0 auto">
+          <option>All</option>
+          <option>Paid</option>
+          <option>Pending</option>
+          <option>Failed</option>
+        </select>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="tabs" style="margin-bottom:12px">
+        <button class="tab active">All time</button>
+        <button class="tab">This week</button>
+        <button class="tab">This month</button>
+        <button class="tab">Custom</button>
+      </div>
+
+      <!-- Transactions grouped by date -->
+      <section class="section">
+
+        <div class="tx-date-label">Today · Jun 4, 2026</div>
+
+        <a class="transaction-row pressable" href="#" onclick="return false" data-open-sheet="txdetail">
+          <div class="tx-icon tx-paid">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+          </div>
+          <div class="avatar-sm av-amit" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Amit Verma</strong>
+              <strong style="font-size:15px;color:var(--success);white-space:nowrap">+₹ 1,200</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Home visit · Lower back pain · APT-2024-08</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 4, 10:30 AM · Razorpay</p>
+              <span class="chip active" style="font-size:9px">Paid</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-pending">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="avatar-sm av-neha" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Neha Kapoor</strong>
+              <strong style="font-size:15px;color:oklch(48% .14 75);white-space:nowrap">Rs 950</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Clinic visit · Neck pain · APT-2024-07</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 4, 2:00 PM · Razorpay</p>
+              <span class="chip pending" style="font-size:9px">Awaiting</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-pending">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="avatar-sm av-rohan" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Rohan Mehta</strong>
+              <strong style="font-size:15px;color:oklch(48% .14 75);white-space:nowrap">Rs 700</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Online consult · Sports injury · APT-2024-06</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 4, 6:15 PM · Scheduled</p>
+              <span class="chip pending" style="font-size:9px">Pending</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="tx-date-label">Jun 3, 2026</div>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-paid">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+          </div>
+          <div class="avatar-sm av-neha" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Neha Kapoor</strong>
+              <strong style="font-size:15px;color:var(--success);white-space:nowrap">+Rs 950</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Clinic session · Cervical spondylosis · APT-2024-05</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 3, 8:30 AM · UPI</p>
+              <span class="chip active" style="font-size:9px">Paid</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-failed">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="avatar-sm av-amit" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Amit Verma</strong>
+              <strong style="font-size:15px;color:var(--danger);white-space:nowrap">Rs 1,200</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">UPI payment failed · APT-2024-04 · Auto-retried</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 3, 11:10 AM · UPI failed</p>
+              <span class="chip rejected" style="font-size:9px">Failed</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="tx-date-label">Jun 2, 2026</div>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-paid">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+          </div>
+          <div class="avatar-sm av-amit" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Amit Verma</strong>
+              <strong style="font-size:15px;color:var(--success);white-space:nowrap">+Rs 1,200</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Home visit session 7 · APT-2024-03</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 2, 10:30 AM · UPI</p>
+              <span class="chip active" style="font-size:9px">Paid</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="transaction-row pressable" href="#" onclick="return false">
+          <div class="tx-icon tx-paid">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+          </div>
+          <div class="avatar-sm av-rohan" style="width:38px;height:38px;border-radius:11px;flex:0 0 auto"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <strong style="font-size:13px">Rohan Mehta</strong>
+              <strong style="font-size:15px;color:var(--success);white-space:nowrap">+Rs 1,500</strong>
+            </div>
+            <p class="subtle" style="font-size:11px;margin-top:2px">Post-surgery rehab · APT-2024-02</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+              <p class="subtle" style="font-size:10px">Jun 2, 4:00 PM · Card</p>
+              <span class="chip active" style="font-size:9px">Paid</span>
+            </div>
+          </div>
+        </a>
+
+      </section>
+
+      <!-- Earnings chart -->
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <strong style="font-size:14px;font-weight:760">Earnings Chart</strong>
+          <select class="select" style="width:auto;padding:6px 10px;font-size:12px;min-height:32px">
+            <option>Monthly</option>
+            <option>Weekly</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div style="width:12px;height:12px;border-radius:3px;background:var(--success)"></div>
+          <span class="subtle" style="font-size:11px">Earnings (₹)</span>
+        </div>
+        <div class="chart-bars" style="height:80px">
+          <i class="bar" style="height:18%;background:var(--success)" data-val="1.2k"></i>
+          <i class="bar" style="height:32%;background:var(--success)" data-val="2.4k"></i>
+          <i class="bar" style="height:55%;background:var(--success)" data-val="4.1k"></i>
+          <i class="bar today" style="height:86%;background:var(--accent)" data-val="6.8k"></i>
+          <i class="bar" style="height:62%;background:var(--success)" data-val="4.9k"></i>
+          <i class="bar" style="height:44%;background:var(--success)" data-val="3.3k"></i>
+          <i class="bar" style="height:38%;background:var(--success)" data-val="2.8k"></i>
+        </div>
+        <div class="chart-labels" style="margin-top:4px">
+          <span>May 9</span><span>May 12</span><span>May 18</span><span>May 21</span><span>May 24</span><span>May 27</span><span>Jun 1</span>
+        </div>
+        <p class="subtle" style="font-size:11px;margin-top:6px;text-align:center">Last 30 Days</p>
+      </div>
+
+      <!-- Load more + download -->
+      <div style="display:grid;gap:8px;padding-bottom:20px">
+        <button class="btn secondary" data-toast="Loading older transactions…">Load more</button>
+        <button class="btn ghost" style="width:100%" data-toast="Statement downloaded as PDF">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download statement (PDF)
+        </button>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+
+    <!-- Transaction detail sheet -->
+    <div class="sheet-backdrop" data-sheet-backdrop="txdetail"></div>
+    <section class="sheet" data-sheet="txdetail">
+      <div class="sheet-handle"></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div class="avatar-sm av-amit" style="width:48px;height:48px;border-radius:14px"></div>
+        <div>
+          <strong style="font-size:16px">Amit Verma</strong>
+          <p class="subtle" style="font-size:12px;margin-top:2px">Home visit · APT-2024-08</p>
+        </div>
+        <span class="chip active" style="margin-left:auto">Paid</span>
+      </div>
+      <div class="card flat" style="background:var(--tint);border:1px solid var(--border);padding:14px;display:grid;gap:8px">
+        <div class="row"><span class="subtle">Amount</span><strong>Rs 1,200</strong></div>
+        <div class="divider" style="margin:0"></div>
+        <div class="row"><span class="subtle">Payment mode</span><span>UPI · riya.sharma@hdfcbank</span></div>
+        <div class="row"><span class="subtle">Date & time</span><span>Jun 4, 2026 · 10:30 AM</span></div>
+        <div class="row"><span class="subtle">Reference</span><span class="mono" style="font-size:12px">APT-2024-08</span></div>
+        <div class="row"><span class="subtle">Platform fee (18%)</span><span style="color:var(--muted)">–Rs 216</span></div>
+        <div class="divider" style="margin:0"></div>
+        <div class="row"><span class="subtle" style="font-weight:750">Net to you</span><strong style="color:var(--success)">Rs 984</strong></div>
+      </div>
+      <button class="btn secondary" data-toast="Invoice downloaded" data-close-sheet>Download invoice</button>
+      <button class="btn secondary" data-close-sheet>Close</button>
+    </section>
+
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: 'earnings' });</script>
+</body>
+</html>

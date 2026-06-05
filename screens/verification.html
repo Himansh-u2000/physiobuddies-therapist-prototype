@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verification — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .verif-hero {
+      margin: 0 16px 20px;
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(42% 0.09 250) 100%);
+      border-radius: 18px;
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .verif-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('../assets/collage.svg') center/cover;
+      opacity: .18;
+    }
+    .verif-hero-inner { position: relative; z-index: 1; }
+    .verif-hero h2 { font-size: 18px; font-weight: 800; }
+    .verif-hero p { font-size: 12px; opacity: .7; margin-top: 4px; }
+    .verif-progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,.2);
+      border-radius: 99px;
+      margin: 16px 0 8px;
+      overflow: hidden;
+    }
+    .verif-progress-bar i {
+      display: block;
+      height: 100%;
+      background: #fff;
+      border-radius: 99px;
+      transition: width .6s cubic-bezier(.34,1.56,.64,1);
+    }
+    .verif-pct-row { display: flex; justify-content: space-between; align-items: center; }
+    .verif-pct-row span { font-size: 12px; opacity: .7; }
+    .verif-pct-row strong { font-size: 20px; font-weight: 900; }
+
+    .verif-steps { padding: 0 16px; display: flex; flex-direction: column; gap: 0; padding-bottom: 100px; }
+    .verif-step {
+      display: flex;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--fg);
+      transition: background .12s;
+      position: relative;
+    }
+    .verif-step:last-child { border-bottom: none; }
+    .step-icon-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .step-bullet {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 15px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      background: var(--surface-strong);
+      color: var(--muted);
+    }
+    .step-bullet.done {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+    .step-bullet.action {
+      background: oklch(96% 0.04 28);
+      border-color: oklch(72% 0.12 28);
+      color: oklch(44% 0.14 28);
+    }
+    .step-bullet.pending {
+      background: oklch(96% 0.04 82);
+      border-color: oklch(72% 0.12 82);
+      color: oklch(44% 0.14 82);
+    }
+    .step-connector {
+      width: 2px;
+      flex: 1;
+      min-height: 16px;
+      background: var(--border);
+      margin: 4px auto 0;
+    }
+    .step-content { flex: 1; padding-top: 6px; }
+    .step-content h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .step-content p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .step-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .step-detail {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .step-cta {
+      margin-top: 10px;
+    }
+    .verif-step-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 6px; }
+    .step-arrow { color: var(--muted); font-size: 16px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 12px 16px 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen no-tabs" style="padding:0">
+
+      <!-- Hero -->
+      <div class="verif-hero">
+        <div class="verif-hero-inner">
+          <h2>Complete your verification</h2>
+          <p>You must complete all steps before accepting paid sessions</p>
+          <div class="verif-progress-bar"><i style="width:72%"></i></div>
+          <div class="verif-pct-row">
+            <span>6 of 8 steps done</span>
+            <strong>72%</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Identity & Qualifications</div>
+      <div class="verif-steps">
+
+        <!-- Step 1 — Done -->
+        <a class="verif-step" href="profile.html">
+          <div class="step-icon-col">
+            <div class="step-bullet done">✓</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Profile details</h3>
+            <p>Name, photo, experience, specializations, languages</p>
+            <div class="step-meta">
+              <span class="step-detail">✓ Completed 2 Mar 2024</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip active">Done</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 2 — Rejected (needs action) -->
+        <a class="verif-step" href="documents.html">
+          <div class="step-icon-col">
+            <div class="step-bullet action">!</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Qualification documents</h3>
+            <p>MPT certificate verified. Registration certificate needs re-upload — image was blurred.</p>
+            <div class="step-meta">
+              <span class="step-detail">⚠ Registration cert rejected</span>
+            </div>
+            <div class="step-cta">
+              <span class="btn small" style="pointer-events:none">Re-upload document</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip rejected">Action</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 3 — Pending -->
+        <a class="verif-step" href="documents.html">
+          <div class="step-icon-col">
+            <div class="step-bullet pending">⋯</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Registration certificate</h3>
+            <p>Maharashtra Physiotherapy Council · Under review</p>
+            <div class="step-meta">
+              <span class="step-detail">⏱ Review typically takes 24–48 hrs</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip pending">Pending</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 4 — Done -->
+        <a class="verif-step" href="documents.html">
+          <div class="step-icon-col">
+            <div class="step-bullet done">✓</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Identity proof</h3>
+            <p>Aadhaar card ending 2481 verified</p>
+            <div class="step-meta">
+              <span class="step-detail">✓ Verified 5 Mar 2024</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip active">Verified</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="section-label">Practice & Payments</div>
+      <div class="verif-steps">
+
+        <!-- Step 5 — Pending -->
+        <a class="verif-step" href="clinic.html">
+          <div class="step-icon-col">
+            <div class="step-bullet pending">⋯</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Clinic details</h3>
+            <p>Add your clinic name, address, photos, and facilities</p>
+            <div class="step-meta">
+              <span class="step-detail">Physiobuddies Rehab Clinic added</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip pending">Pending</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 6 — Done -->
+        <a class="verif-step" href="profile.html">
+          <div class="step-icon-col">
+            <div class="step-bullet done">✓</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Bank details</h3>
+            <p>HDFC Bank · Account ending 2041 · IFSC HDFC0000123</p>
+            <div class="step-meta">
+              <span class="step-detail">✓ Verified 4 Mar 2024</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip active">Verified</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 7 — Edit -->
+        <a class="verif-step" href="availability.html">
+          <div class="step-icon-col">
+            <div class="step-bullet done">✓</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Availability setup</h3>
+            <p>Mon–Sat · 9:00 AM – 7:00 PM · Home & Clinic slots</p>
+            <div class="step-meta">
+              <span class="step-detail">✓ 24 slots this week</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip info">Edit</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+        <!-- Step 8 — Edit -->
+        <a class="verif-step" href="profile.html">
+          <div class="step-icon-col">
+            <div class="step-bullet done">✓</div>
+          </div>
+          <div class="step-content">
+            <h3>Profile content setup</h3>
+            <p>About section, specializations, FAQs, and gallery complete</p>
+            <div class="step-meta">
+              <span class="step-detail">✓ Live on Physiobuddies.com</span>
+            </div>
+          </div>
+          <div class="verif-step-right">
+            <span class="chip info">Edit</span>
+            <span class="step-arrow">›</span>
+          </div>
+        </a>
+
+      </div>
+
+    </main>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "profile" });</script>
+</body>
+</html>

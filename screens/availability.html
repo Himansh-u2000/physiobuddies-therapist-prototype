@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Availability – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .av-header-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; margin: 0 16px 12px;
+      padding: 14px 16px;
+    }
+    .av-date-field {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px; border: 1.5px solid var(--border);
+      border-radius: 9px; background: var(--tint);
+      margin-top: 6px;
+    }
+    .av-date-field input[type=date] {
+      border: none; background: transparent;
+      font-size: 14px; font-weight: 600; color: var(--fg);
+      flex: 1; outline: none;
+    }
+    .av-selected-label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      margin-top: 10px; padding: 8px 12px;
+      background: var(--primary-soft); border-radius: 8px;
+    }
+    .weekly-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; margin: 0 16px 12px;
+      padding: 14px 16px;
+    }
+    .weekly-title { font-size: 14px; font-weight: 760; margin-bottom: 10px; }
+    .weekly-days {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .wd-chip {
+      padding: 8px 4px; text-align: center;
+      border-radius: 8px; font-size: 13px; font-weight: 700;
+      border: 1.5px solid var(--border); background: white;
+      color: var(--fg); cursor: pointer;
+    }
+    .wd-chip.active {
+      background: var(--accent); border-color: var(--accent); color: white;
+    }
+    .period-section { margin: 0 16px 4px; }
+    .period-label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      padding: 10px 0 6px; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .slot-card {
+      background: white; border: 1.5px solid var(--success);
+      border-radius: 10px; padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .slot-card.booked { border-color: oklch(72% .14 75); }
+    .slot-time { font-size: 14px; font-weight: 800; color: var(--fg); }
+    .slot-time span { font-weight: 400; font-size: 13px; color: var(--muted); }
+    .slot-bottom { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+    .av-repeat-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; background: white;
+      border: 1px solid var(--border); border-radius: 12px;
+      margin: 0 16px 12px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0 0 80px">
+
+      <div class="page-title" style="padding:14px 16px 0">
+        <div>
+          <h1>Manage Your Availability</h1>
+          <p class="subtle" style="font-size:12px;margin-top:2px">Set your available time slots for appointments</p>
+        </div>
+      </div>
+
+      <!-- Select Date -->
+      <div class="av-header-card" style="margin-top:12px">
+        <label style="font-size:12px;font-weight:700;color:var(--muted)">Select Date</label>
+        <div class="av-date-field">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <input type="date" value="2026-06-04" id="av-date" />
+        </div>
+        <div class="av-selected-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <span id="av-label-text">Thursday, 6/4/2026</span>
+        </div>
+      </div>
+
+      <!-- Availability Schedule — Weekly -->
+      <div class="weekly-card">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <h2 style="font-size:14px;font-weight:760">Availability Schedule</h2>
+        </div>
+        <div class="weekly-title">Weekly Availability</div>
+        <div class="weekly-days" id="weekly-days">
+          <button class="wd-chip active" data-day="mon">Mon</button>
+          <button class="wd-chip active" data-day="tue">Tue</button>
+          <button class="wd-chip active" data-day="wed">Wed</button>
+          <button class="wd-chip active" data-day="thu">Thu</button>
+          <button class="wd-chip active" data-day="fri">Fri</button>
+          <button class="wd-chip active" data-day="sat">Sat</button>
+          <button class="wd-chip" data-day="sun">Sun</button>
+        </div>
+      </div>
+
+      <!-- Period: Early -->
+      <div class="period-section">
+        <div class="period-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          Early
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">08:00 <span>–</span> 08:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot" aria-label="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period: Morning -->
+      <div class="period-section">
+        <div class="period-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/></svg>
+          Morning
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">09:00 <span>–</span> 09:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">10:00 <span>–</span> 10:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">11:00 <span>–</span> 11:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period: Afternoon -->
+      <div class="period-section">
+        <div class="period-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
+          Afternoon
+        </div>
+        <div class="slot-card booked">
+          <div class="row">
+            <div>
+              <div class="slot-time">14:00 <span>–</span> 14:45</div>
+              <div class="slot-bottom">
+                <span class="chip pending" style="font-size:10px">Booked · Amit Verma</span>
+              </div>
+            </div>
+            <a href="appointment-detail.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">15:00 <span>–</span> 15:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Period: Evening -->
+      <div class="period-section">
+        <div class="period-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Evening
+        </div>
+        <div class="slot-card">
+          <div class="row">
+            <div>
+              <div class="slot-time">17:00 <span>–</span> 17:45</div>
+              <div class="slot-bottom">
+                <span class="chip active" style="font-size:10px">✓ Available</span>
+              </div>
+            </div>
+            <button class="av-slot-menu" data-open-sheet="editslot">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Repeat toggle -->
+      <label class="av-repeat-row">
+        <div>
+          <strong style="font-size:13px">Repeat weekly</strong>
+          <p class="subtle" style="font-size:11px">Apply this schedule every week</p>
+        </div>
+        <button class="toggle" id="repeat-toggle" aria-checked="true" role="switch" aria-label="Repeat weekly">
+          <span class="knob"></span>
+        </button>
+      </label>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 16px 16px">
+        <button class="btn secondary" data-open-sheet="addslot">+ Add slot</button>
+        <button class="btn" data-complete-flow="Availability saved · Booking slots updated">Save changes</button>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+
+    <!-- Add slot sheet -->
+    <div class="sheet-backdrop" data-sheet-backdrop="addslot"></div>
+    <section class="sheet" data-sheet="addslot">
+      <div class="sheet-handle"></div>
+      <h2 style="font-size:17px">Add time slot</h2>
+      <div class="field">
+        <label>Slot type</label>
+        <select class="select">
+          <option>🏥 Clinic visit</option>
+          <option>🏠 Home visit</option>
+          <option>💻 Online consultation</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label>Start time</label><input class="input" type="time" value="09:00" /></div>
+        <div class="field"><label>End time</label><input class="input" type="time" value="09:45" /></div>
+      </div>
+      <button class="btn" data-complete-flow="Slot added and published" data-close-sheet>Add slot</button>
+      <button class="btn secondary" data-close-sheet>Cancel</button>
+    </section>
+
+    <!-- Edit slot sheet -->
+    <div class="sheet-backdrop" data-sheet-backdrop="editslot"></div>
+    <section class="sheet" data-sheet="editslot">
+      <div class="sheet-handle"></div>
+      <h2 style="font-size:17px">Edit slot</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label>Start time</label><input class="input" type="time" value="08:00" /></div>
+        <div class="field"><label>End time</label><input class="input" type="time" value="08:45" /></div>
+      </div>
+      <div class="field">
+        <label>Slot type</label>
+        <select class="select">
+          <option selected>🏥 Clinic visit</option>
+          <option>🏠 Home visit</option>
+          <option>💻 Online consultation</option>
+        </select>
+      </div>
+      <button class="btn" data-complete-flow="Slot updated" data-close-sheet>Save changes</button>
+      <button class="btn danger" data-complete-flow="Slot removed" data-close-sheet>Remove slot</button>
+      <button class="btn secondary" data-close-sheet>Cancel</button>
+    </section>
+
+  </div>
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({ active: 'home' });
+
+    // Weekly day chip toggle
+    document.querySelectorAll('.wd-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+      });
+    });
+
+    // Date label update
+    document.getElementById('av-date').addEventListener('change', function() {
+      const d = new Date(this.value);
+      const opts = { weekday:'long', month:'numeric', day:'numeric', year:'numeric' };
+      document.getElementById('av-label-text').textContent = d.toLocaleDateString('en-US', opts);
+    });
+
+    // Repeat toggle
+    document.getElementById('repeat-toggle').addEventListener('click', function() {
+      const on = this.getAttribute('aria-checked') === 'true';
+      this.setAttribute('aria-checked', String(!on));
+      this.classList.toggle('off', on);
+      App.toast(on ? 'Weekly repeat disabled' : 'This schedule will repeat every week');
+    });
+  </script>
+</body>
+</html>

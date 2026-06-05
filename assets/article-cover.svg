@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="art-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7f1ff"/>
+      <stop offset="1" stop-color="#f6fafd"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#art-bg)"/>
+  <g transform="translate(220,80)" stroke="#1f4ee0" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="80" cy="120" r="22" fill="#1f4ee0"/>
+    <path d="M30 200 L80 80 L130 200 Z" stroke="#1f4ee0" stroke-width="2.5" fill="#5cb1ff" fill-opacity="0.2"/>
+    <path d="M50 200 L80 140 L110 200" stroke="#1f4ee0" stroke-width="2"/>
+    <line x1="80" y1="80" x2="80" y2="200" stroke="#1f4ee0" stroke-width="2"/>
+    <line x1="40" y1="180" x2="120" y2="180" stroke="#1f4ee0" stroke-width="2" stroke-dasharray="4 4"/>
+  </g>
+  <g transform="translate(120,260)" stroke="#5cb1ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="20" cy="20" r="16"/>
+    <line x1="20" y1="20" x2="20" y2="36"/>
+    <line x1="20" y1="20" x2="32" y2="20"/>
+  </g>
+  <g transform="translate(440,260)" stroke="#0f9b6c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 20 Q 10 5 20 20 Q 30 5 40 20"/>
+    <line x1="20" y1="20" x2="20" y2="40"/>
+  </g>
+  <g transform="translate(80,80)" fill="#5cb1ff" opacity="0.5">
+    <circle cx="6" cy="6" r="3"/>
+    <circle cx="24" cy="14" r="2"/>
+  </g>
+  <g transform="translate(500,80)" fill="#1f4ee0" opacity="0.4">
+    <circle cx="6" cy="6" r="2.5"/>
+    <circle cx="20" cy="14" r="2"/>
+  </g>
+</svg>

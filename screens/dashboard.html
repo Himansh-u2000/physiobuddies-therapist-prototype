@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen">
+
+      <!-- Hero card -->
+      <div class="hero-card card" style="padding:16px">
+        <div class="row start" style="gap:12px">
+          <div class="portrait lg"></div>
+          <div class="stack" style="flex:1;gap:6px">
+            <div class="row">
+              <span class="chip active" style="font-size:10px">● Online</span>
+              <button class="toggle" id="avail-toggle" aria-label="Toggle availability"><span class="knob"></span></button>
+            </div>
+            <h1 style="font-size:20px">Good morning,<br>Dr. Himanshu 👋</h1>
+            <p class="subtle" data-availability-label>Available for home visits &amp; clinic</p>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="background:oklch(96% .025 200);border-radius:10px;padding:10px;text-align:center">
+            <strong style="display:block;font-size:18px;font-weight:850;color:var(--accent)">3</strong>
+            <span class="subtle">Today's sessions</span>
+          </div>
+          <div style="background:oklch(96% .025 200);border-radius:10px;padding:10px;text-align:center">
+            <strong style="display:block;font-size:18px;font-weight:850;color:var(--success)">Rs 4,850</strong>
+            <span class="subtle">Earned today</span>
+          </div>
+          <div style="background:oklch(96% .025 200);border-radius:10px;padding:10px;text-align:center">
+            <strong style="display:block;font-size:18px;font-weight:850;color:var(--fg)">4.8 ⭐</strong>
+            <span class="subtle">Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clinic image strip -->
+      <div style="margin:12px 0 0;border-radius:16px;overflow:hidden;position:relative;height:140px;box-shadow:var(--shadow-md)">
+        <div style="position:absolute;inset:0;background-image:url('../assets/clinic-main.svg');background-size:cover;background-position:center"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,oklch(22% .06 240 / .72) 0%,oklch(22% .06 240 / .28) 60%,transparent)"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:flex-end;padding:14px 16px;gap:16px">
+          <div style="flex:1">
+            <p style="color:rgba(255,255,255,.8);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px">Physiobuddies Clinic</p>
+            <strong style="color:white;font-size:16px">Today: 3 sessions scheduled</strong>
+          </div>
+          <div style="display:grid;gap:4px;text-align:right">
+            <span style="color:white;font-size:13px;font-weight:850">96%</span>
+            <span style="color:rgba(255,255,255,.7);font-size:10px">On-time</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next session card -->
+      <section class="section">
+        <div class="module-title"><h2>Next session</h2><a class="btn ghost small" href="appointments.html">See all</a></div>
+        <a class="appointment-card home pressable" href="appointment-detail.html">
+          <div class="appt-image">
+            <span class="type-badge chip info" style="font-size:10px">🏠 Home visit</span>
+          </div>
+          <div class="appt-body">
+            <div class="row start" style="gap:12px">
+              <div class="time-block">10:30<span>AM</span></div>
+              <div class="stack" style="flex:1;gap:5px">
+                <div class="row">
+                  <div class="row start" style="gap:8px">
+                    <div class="avatar-sm av-amit" style="width:32px;height:32px;border-radius:9px"></div>
+                    <h3 style="font-size:15px">Amit Verma</h3>
+                  </div>
+                  <span class="chip active">Paid</span>
+                </div>
+                <p class="subtle">Lower back pain rehab · Rs 1,200</p>
+                <p class="subtle">📍 Bandra West, Mumbai · 5.2 km · 18 min</p>
+              </div>
+            </div>
+            <div class="timeline">
+              <span class="done"><b>✓</b>Route</span>
+              <span class="current"><b>OTP</b>Start</span>
+              <span><b>Care</b>45 min</span>
+              <span><b>Note</b>Draft</span>
+            </div>
+          </div>
+          <div class="appt-footer">
+            <a class="btn small secondary" href="route.html">Navigate</a>
+            <a class="btn small" href="session-otp.html">Start session</a>
+          </div>
+        </a>
+      </section>
+
+      <!-- Quick actions -->
+      <section class="section">
+        <div class="module-title"><h2>Quick actions</h2></div>
+        <div class="quick-grid">
+          <a class="quick" href="availability.html">
+            <div class="q-icon" style="background:#e8f4fd">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <strong>Availability</strong><span>Set slots</span>
+          </a>
+          <a class="quick" href="patients.html">
+            <div class="q-icon" style="background:#edfaf1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#16a34a" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <strong>Patients</strong><span>Records</span>
+          </a>
+          <a class="quick" href="earnings.html">
+            <div class="q-icon" style="background:#fef9ec">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#d97706" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <strong>Earnings</strong><span>Payouts</span>
+          </a>
+          <a class="quick" href="profile.html">
+            <div class="q-icon" style="background:#f3eeff">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#7c3aed" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <strong>Profile</strong><span>Public page</span>
+          </a>
+          <a class="quick" href="articles.html">
+            <div class="q-icon" style="background:#fff0f5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#e11d48" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <strong>Articles</strong><span>Content</span>
+          </a>
+          <a class="quick" href="documents.html">
+            <div class="q-icon" style="background:#fff4e5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ea580c" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <strong>Documents</strong><span>Verify</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Pending tasks -->
+      <section class="section">
+        <div class="module-title"><h2>Pending tasks</h2><span class="chip rejected">3 need action</span></div>
+        <a class="task-card" href="documents.html">
+          <div class="row">
+            <div class="row start" style="gap:10px">
+              <div style="width:36px;height:36px;border-radius:10px;background:oklch(96% .04 28);display:grid;place-items:center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--danger)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <strong style="font-size:13px">Registration certificate rejected</strong>
+            </div>
+            <span class="chip rejected">Re-upload</span>
+          </div>
+          <p class="subtle">Image is blurred. Upload a clear scan to unlock your public profile.</p>
+          <button class="btn small secondary" style="width:auto" data-upload-state>Re-upload now</button>
+        </a>
+        <a class="task-card" href="treatment-form.html">
+          <div class="row">
+            <div class="row start" style="gap:10px">
+              <div style="width:36px;height:36px;border-radius:10px;background:oklch(96% .055 85);display:grid;place-items:center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="oklch(48% .14 75)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </div>
+              <strong style="font-size:13px">Complete Neha's treatment note</strong>
+            </div>
+            <span class="chip pending">Draft</span>
+          </div>
+          <p class="subtle">Session ended at 8:40 AM. Submit before payout review at 6 PM.</p>
+        </a>
+      </section>
+
+      <!-- Mini earnings -->
+      <section class="section">
+        <div class="module-title"><h2>This week</h2><a class="btn ghost small" href="earnings.html">Full report</a></div>
+        <div class="card flat" style="background:white;border:1px solid var(--border);padding:16px">
+          <div class="row" style="margin-bottom:12px">
+            <div><strong style="font-size:22px;font-weight:900;color:var(--accent)">Rs 28,400</strong><p class="subtle">Weekly earnings · Jun 2–8</p></div>
+            <span class="chip active">+12% vs last week</span>
+          </div>
+          <div class="chart-bars" style="height:80px">
+            <i class="bar" style="height:42%" data-val="2.8k"></i>
+            <i class="bar" style="height:72%" data-val="4.1k"></i>
+            <i class="bar" style="height:58%" data-val="3.6k"></i>
+            <i class="bar today" style="height:86%" data-val="4.9k"></i>
+            <i class="bar" style="height:52%" data-val="3.2k"></i>
+            <i class="bar" style="height:34%" data-val="2.1k"></i>
+            <i class="bar" style="height:28%" data-val="1.8k"></i>
+          </div>
+          <div class="chart-labels">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({ active: 'home' });
+    const toggle = document.getElementById('avail-toggle');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('off');
+      const on = !toggle.classList.contains('off');
+      document.querySelector('[data-availability-label]').textContent = on ? 'Available for home visits & clinic' : 'Unavailable – not accepting sessions';
+      document.querySelector('.chip.active').textContent = on ? '● Online' : '● Offline';
+      document.querySelector('.chip.active').className = on ? 'chip active' : 'chip cancelled';
+      App.toast(on ? 'You are now available for sessions' : 'You are now offline');
+    });
+  </script>
+</body>
+</html>

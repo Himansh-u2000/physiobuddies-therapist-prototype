@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Route — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .map-section {
+      position: relative;
+      height: 240px;
+      overflow: hidden;
+      background: #e8f0f8;
+    }
+    /* Realistic map representation using CSS grid + image */
+    .map-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(.7) brightness(1.05);
+    }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, oklch(96.5% 0.018 236 / .95) 100%);
+    }
+    /* Route line on map */
+    .map-route {
+      position: absolute;
+      inset: 0;
+    }
+    .map-pin-start, .map-pin-end {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .map-pin-start { bottom: 55px; left: 38%; }
+    .map-pin-end { top: 45px; right: 28%; }
+    .pin-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .pin-dot.me { background: var(--accent); }
+    .pin-dot.patient { background: oklch(58% 0.18 28); }
+    .pin-label {
+      background: #fff;
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      white-space: nowrap;
+    }
+    .route-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Info card over map bottom */
+    .route-info-card {
+      margin: -32px 16px 0;
+      position: relative;
+      z-index: 10;
+      background: var(--surface-strong);
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      padding: 16px;
+      box-shadow: var(--shadow-md);
+    }
+    .route-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .route-dest-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: oklch(95% 0.04 28);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .route-dest-info { flex: 1; }
+    .route-dest-info h3 { font-size: 15px; font-weight: 800; }
+    .route-dest-info p { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+    .route-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 14px;
+      background: var(--bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+    .route-stat {
+      flex: 1;
+      text-align: center;
+      padding: 10px 8px;
+      border-right: 1px solid var(--border);
+    }
+    .route-stat:last-child { border-right: none; }
+    .route-stat .rs-val { font-size: 16px; font-weight: 900; display: block; color: var(--fg); font-family: var(--font-mono); }
+    .route-stat .rs-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+    .route-actions {
+      display: flex;
+      gap: 10px;
+      margin: 14px 16px 0;
+    }
+    .route-actions .btn { flex: 1; }
+
+    /* Checklist section */
+    .checklist-section {
+      margin: 20px 16px 0;
+      background: var(--surface-strong);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist-header h3 { font-size: 14px; font-weight: 800; }
+    .checklist-step {
+      display: flex;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .checklist-step:last-child { border-bottom: none; }
+    .step-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-num.current { background: var(--accent); color: #fff; }
+    .step-num.next { background: oklch(94% 0.02 240); color: var(--muted); }
+    .step-num.done { background: var(--success); color: #fff; }
+    .step-body { flex: 1; }
+    .step-body h4 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .step-body p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* Visit instructions */
+    .visit-note {
+      margin: 14px 16px 20px;
+      background: oklch(97.5% 0.025 236);
+      border: 1px solid oklch(88% 0.03 236);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .visit-note h4 { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+    .visit-note p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    .patient-call-bar {
+      margin: 0 16px 20px;
+      background: var(--surface-strong);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .patient-call-bar img {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+    .patient-call-bar .pci { flex: 1; }
+    .patient-call-bar .pci h4 { font-size: 13px; font-weight: 700; }
+    .patient-call-bar .pci p { font-size: 11px; color: var(--muted); }
+    .call-btns { display: flex; gap: 8px; }
+    .call-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--surface-strong);
+    }
+    .call-btn.phone { background: oklch(93% 0.05 150); border-color: oklch(80% 0.06 150); }
+    .call-btn.msg { background: oklch(94% 0.04 236); border-color: oklch(82% 0.04 236); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen no-tabs" style="padding:0; padding-bottom:20px">
+
+      <!-- Map section -->
+      <div class="map-section">
+        <img class="map-bg" src="../assets/route-map.svg" alt="Map area" style="object-position:center 60%" />
+        <div class="map-overlay"></div>
+        <!-- Simulated route SVG -->
+        <svg class="route-svg" viewBox="0 0 390 240" xmlns="http://www.w3.org/2000/svg">
+          <path d="M150 195 C160 170, 180 140, 210 120 C235 103, 255 90, 270 75"
+                stroke="var(--accent)" stroke-width="4" fill="none"
+                stroke-dasharray="8 4" stroke-linecap="round" opacity=".9"/>
+          <!-- You dot -->
+          <circle cx="150" cy="195" r="8" fill="white" />
+          <circle cx="150" cy="195" r="5" fill="oklch(35% 0.085 236)" />
+          <!-- Destination -->
+          <circle cx="270" cy="75" r="10" fill="white" />
+          <circle cx="270" cy="75" r="7" fill="oklch(58% 0.18 28)" />
+        </svg>
+        <!-- Labels -->
+        <div style="position:absolute;bottom:62px;left:130px;background:#fff;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.15)">📍 You</div>
+        <div style="position:absolute;top:52px;right:80px;background:#fff;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.15)">🏠 Amit's home</div>
+      </div>
+
+      <!-- Route info card -->
+      <div class="route-info-card">
+        <div class="route-info-row">
+          <div class="route-dest-icon">🏠</div>
+          <div class="route-dest-info">
+            <h3>Bandra West</h3>
+            <p>Flat 804, Sea View Residency, Turner Rd,<br>Bandra West, Mumbai — 400050</p>
+          </div>
+        </div>
+        <div class="route-stats">
+          <div class="route-stat"><span class="rs-val">5.2</span><span class="rs-lbl">km</span></div>
+          <div class="route-stat"><span class="rs-val">22</span><span class="rs-lbl">min ETA</span></div>
+          <div class="route-stat"><span class="rs-val">10:12</span><span class="rs-lbl">Arrival</span></div>
+          <div class="route-stat"><span class="rs-val">Home</span><span class="rs-lbl">Visit type</span></div>
+        </div>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class="route-actions">
+        <button class="btn secondary" data-toast="Opening Google Maps" style="flex:.8">
+          🗺 Open Maps
+        </button>
+        <a class="btn" href="session-otp.html" style="flex:1.2; text-align:center">
+          🔒 Enter patient OTP
+        </a>
+      </div>
+
+      <!-- Patient contact -->
+      <div class="patient-call-bar" style="margin-top:14px">
+        <img src="../assets/avatar-amit.svg" alt="Amit Verma" />
+        <div class="pci">
+          <h4>Amit Verma</h4>
+          <p>+91 98123 45678 · Home visit · 9:00 AM</p>
+        </div>
+        <div class="call-btns">
+          <button class="call-btn phone" data-toast="Calling +91 98123 45678">📞</button>
+          <button class="call-btn msg" data-toast="Opening WhatsApp">💬</button>
+        </div>
+      </div>
+
+      <!-- Pre-visit checklist -->
+      <div class="checklist-section">
+        <div class="checklist-header">
+          <h3>Before you enter OTP</h3>
+          <span class="chip pending">Step 1 of 3</span>
+        </div>
+        <div class="checklist-step">
+          <div class="step-num current">1</div>
+          <div class="step-body">
+            <h4>Navigate to patient location</h4>
+            <p>Use the map link above to get turn-by-turn directions. Allow location access if prompted.</p>
+          </div>
+          <button class="btn small secondary" data-toast="Navigation opened" style="flex-shrink:0">Open</button>
+        </div>
+        <div class="checklist-step">
+          <div class="step-num next">2</div>
+          <div class="step-body">
+            <h4>Call patient if delayed</h4>
+            <p>Confirm building entry and update the patient if you're running late.</p>
+          </div>
+          <a class="btn small secondary" href="tel:+919812345678" style="flex-shrink:0">Call</a>
+        </div>
+        <div class="checklist-step">
+          <div class="step-num next">3</div>
+          <div class="step-body">
+            <h4>Enter patient OTP to start session</h4>
+            <p>Only enter the OTP after meeting the patient in person.</p>
+          </div>
+          <a class="btn small" href="session-otp.html" style="flex-shrink:0">Start</a>
+        </div>
+      </div>
+
+      <!-- Visit instructions -->
+      <div class="visit-note">
+        <h4>Visit instructions</h4>
+        <p>Security gate requires appointment ID <strong>PB-2406</strong>. Amit prefers WhatsApp if you are delayed. Please carry resistance band and lumbar support assessment sheet. Lift access available on the left side of the lobby.</p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "appointments" });</script>
+</body>
+</html>

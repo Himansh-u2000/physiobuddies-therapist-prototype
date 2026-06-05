@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Physiobuddies Therapist — Prototype</title>
+  <style>
+    :root {
+      --nav: oklch(31% 0.082 238);
+      --accent: oklch(35% 0.085 236);
+      --success: oklch(58% 0.145 150);
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --fg: oklch(19% 0.045 246);
+      --muted: oklch(52% 0.025 246);
+      --border: oklch(88% 0.014 235);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---- Top bar ---- */
+    .topbar {
+      background: var(--nav);
+      color: #fff;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-logo {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.15);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .topbar-logo img { width: 30px; height: 30px; object-fit: contain; }
+    .topbar-title { font-size: 16px; font-weight: 800; letter-spacing: -.02em; flex: 1; }
+    .topbar-sub { font-size: 12px; opacity: .55; }
+    .launch-btn {
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .launch-btn:hover { background: rgba(255,255,255,.28); }
+
+    /* ---- Hero ---- */
+    .hero {
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(42% 0.09 250) 100%);
+      color: #fff;
+      padding: 56px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/hero-bg.svg') center/cover no-repeat;
+      opacity: .55;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: clamp(24px, 4vw, 38px); font-weight: 900; letter-spacing: -.03em; margin-bottom: 10px; }
+    .hero p { font-size: 15px; opacity: .82; max-width: 540px; margin: 0 auto 24px; line-height: 1.6; }
+    .hero-stats {
+      display: inline-flex;
+      gap: 32px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 14px;
+      padding: 14px 28px;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat .n { font-size: 22px; font-weight: 800; display: block; }
+    .hero-stat .l { font-size: 11px; opacity: .6; text-transform: uppercase; letter-spacing: .04em; }
+    .hero-launch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      background: #fff;
+      color: var(--nav);
+      padding: 12px 26px;
+      border-radius: 26px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px oklch(0% 0 0 / .25);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .hero-launch:hover { transform: translateY(-2px); box-shadow: 0 12px 32px oklch(0% 0 0 / .32); }
+    .hero-launch svg { width: 16px; height: 16px; }
+
+    /* ---- How-to strip ---- */
+    .howto {
+      max-width: 1200px;
+      margin: -28px auto 0;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+    .howto-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      box-shadow: 0 10px 30px oklch(31% 0.08 238 / .08);
+    }
+    .howto-item { display: flex; align-items: center; gap: 12px; }
+    .howto-num {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      background: oklch(94% 0.04 236);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .howto-text { font-size: 12.5px; line-height: 1.4; color: var(--fg); }
+    .howto-text strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 1px; }
+
+    /* ---- Content ---- */
+    .content { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ---- Flow section ---- */
+    .flow-section { margin-bottom: 48px; }
+    .flow-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .flow-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .flow-icon svg { width: 20px; height: 20px; }
+    .flow-header h2 { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+    .flow-header p { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .flow-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .flow-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    /* ---- Screen grid ---- */
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .screen-card {
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+      cursor: pointer;
+      display: block;
+    }
+    .screen-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px oklch(31% 0.08 238 / .14);
+      border-color: oklch(75% 0.04 236);
+    }
+    .screen-thumb {
+      height: 130px;
+      position: relative;
+      overflow: hidden;
+      background: oklch(95% 0.02 236);
+    }
+    .screen-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .screen-thumb .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, oklch(90% 0.03 236) 0%, oklch(94% 0.025 220) 100%);
+    }
+    .screen-thumb .thumb-icon {
+      width: 52px; height: 52px;
+      background: var(--nav);
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 18px oklch(31% 0.08 238 / .28);
+    }
+    .screen-thumb .thumb-icon svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .screen-info { padding: 12px 14px 14px; }
+    .screen-info h3 { font-size: 13px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 3px; }
+    .screen-info p { font-size: 11px; color: var(--muted); line-height: 1.35; }
+    .screen-tag {
+      display: inline-block;
+      margin-top: 8px;
+      background: oklch(94% 0.025 236);
+      color: var(--accent);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .screen-tag.new { background: oklch(94% 0.04 150); color: oklch(42% 0.14 150); }
+    .screen-tag.action { background: oklch(96% 0.04 28); color: oklch(48% 0.15 28); }
+
+    /* ---- Flow icon colors ---- */
+    .fi-auth    { background: oklch(94% 0.04 265); color: oklch(42% 0.12 265); }
+    .fi-board   { background: oklch(94% 0.04 236); color: oklch(38% 0.1 236); }
+    .fi-appt    { background: oklch(93% 0.05 190); color: oklch(42% 0.12 190); }
+    .fi-session { background: oklch(93% 0.04 28);  color: oklch(44% 0.14 28); }
+    .fi-patient { background: oklch(94% 0.04 150); color: oklch(42% 0.14 150); }
+    .fi-earn    { background: oklch(95% 0.04 82);  color: oklch(44% 0.14 82); }
+    .fi-profile { background: oklch(95% 0.03 280); color: oklch(44% 0.12 280); }
+    .fi-util    { background: oklch(94% 0.02 240); color: oklch(42% 0.08 240); }
+
+    /* ---- Clickable flow diagram ---- */
+    .flow-diagram {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 20px 24px;
+      margin-bottom: 40px;
+      overflow-x: auto;
+    }
+    .flow-diagram h3 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; }
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: nowrap;
+      min-width: max-content;
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 88px;
+    }
+    .flow-step a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      transition: opacity .15s;
+    }
+    .flow-step a:hover { opacity: .7; }
+    .flow-dot {
+      width: 44px; height: 44px;
+      background: var(--nav);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+    }
+    .flow-dot svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .flow-step span { font-size: 11px; font-weight: 600; color: var(--fg); line-height: 1.2; }
+    .flow-arrow {
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ---- Therapist card ---- */
+    .therapist-card {
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(42% 0.09 250) 100%);
+      border-radius: 20px;
+      padding: 24px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .therapist-card .t-avatar {
+      width: 72px; height: 72px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,.3);
+      flex-shrink: 0;
+    }
+    .therapist-card h2 { font-size: 18px; font-weight: 800; letter-spacing: -.02em; }
+    .therapist-card p { font-size: 13px; opacity: .7; margin-top: 2px; }
+    .therapist-card .t-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .t-chip {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .screen-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .hero { padding: 36px 16px 44px; }
+      .hero-stats { gap: 20px; }
+      .content { padding: 24px 16px 60px; }
+      .flow-steps { gap: 0; }
+      .therapist-card { flex-direction: column; text-align: center; }
+      .therapist-card .t-chips { justify-content: center; }
+      .howto-card { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-logo">
+      <img src="https://physiobuddies.in/assets/logo-CZkn2wwb.png" alt="PhysioBuddies Logo" />
+    </div>
+    <div>
+      <div class="topbar-title">Physiobuddies Therapist</div>
+      <div class="topbar-sub">28 screens · Clickable prototype</div>
+    </div>
+    <a class="launch-btn" href="screens/splash.html">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l6 6-6 6M1 7h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Launch App
+    </a>
+  </header>
+
+  <div class="hero">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      High-fidelity prototype
+    </div>
+    <h1>Physiobuddies Therapist App</h1>
+    <p>A complete mobile app for physiotherapists &mdash; manage sessions, patients, earnings, and your public profile from one place.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="n">28</span><span class="l">Screens</span></div>
+      <div class="hero-stat"><span class="n">8</span><span class="l">Flows</span></div>
+      <div class="hero-stat"><span class="n">100%</span><span class="l">Clickable</span></div>
+    </div>
+    <a class="hero-launch" href="screens/dashboard.html">
+      Open the therapist app
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+
+  <div class="howto">
+    <div class="howto-card">
+      <div class="howto-item">
+        <div class="howto-num">1</div>
+        <div class="howto-text"><strong>Open <code style="font-family:var(--font-mono,monospace);background:oklch(94% .025 236);padding:1px 6px;border-radius:5px">index.html</code></strong>Clickable prototype &mdash; no server needed.</div>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">2</div>
+        <div class="howto-text"><strong>Tap "Launch App" or any screen card</strong>Navigate through the in-app flow.</div>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">3</div>
+        <div class="howto-text"><strong>Use the bottom tabs</strong>Home / Appts / Patients / Earnings / Profile.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Therapist intro card -->
+    <div class="therapist-card">
+      <img class="t-avatar" src="assets/avatar-doctor.svg" alt="Dr. Riya Sharma" />
+      <div>
+        <h2>Dr. Riya Sharma</h2>
+        <p>MPT Orthopedics · 8 years experience · Mumbai</p>
+        <div class="t-chips">
+          <span class="t-chip">Back Pain</span>
+          <span class="t-chip">Sports Injury</span>
+          <span class="t-chip">Post-Surgery Rehab</span>
+          <span class="t-chip">Neck Pain</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Primary flow diagram -->
+    <div class="flow-diagram">
+      <h3>Core session flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><a href="screens/dashboard.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5"/></svg></div><span>Dashboard</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/appointments.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="15" rx="2"/><path d="M7 2v4M15 2v4M3 9h16"/></svg></div><span>Appointment</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/appointment-detail.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><circle cx="11" cy="8" r="4"/><path d="M4 19c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg></div><span>Detail</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/route.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><path d="M11 2C8.2 2 6 4.2 6 7c0 4 5 11 5 11s5-7 5-11c0-2.8-2.2-5-5-5z"/><circle cx="11" cy="7" r="1.5" fill="#fff" stroke="#fff"/></svg></div><span>Navigate</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/session-otp.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><rect x="5" y="9" width="12" height="10" rx="2"/><path d="M8 9V6a3 3 0 0 1 6 0v3"/><circle cx="11" cy="14" r="1.5" fill="#fff" stroke="#fff"/></svg></div><span>OTP</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/active-session.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M11 7v4l3 2"/></svg></div><span>Session</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/treatment-form.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><path d="M14 3H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6l-3-3z"/><path d="M14 3v4h4M8 11h6M8 14h4"/></svg></div><span>Treatment</span></a></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step"><a href="screens/session-complete.html"><div class="flow-dot"><svg viewBox="0 0 22 22"><path d="M20 6L9 17l-5-5"/></svg></div><span>Complete</span></a></div>
+      </div>
+    </div>
+
+    <!-- 1. Auth flow -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-auth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+        <div><h2>Authentication</h2><p>Login, OTP, biometric security</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">5 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/splash.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="10" r="5"/><path d="M5 23c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div></div></div>
+          <div class="screen-info"><h3>Splash Screen</h3><p>Animated brand entry with logo</p><span class="screen-tag">Entry</span></div>
+        </a>
+        <a class="screen-card" href="screens/login.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><rect x="4" y="8" width="18" height="14" rx="2"/><path d="M9 8V6a4 4 0 0 1 8 0v2"/><circle cx="13" cy="15" r="2" fill="#fff" stroke="#fff"/></svg></div></div></div>
+          <div class="screen-info"><h3>Login</h3><p>Phone number + terms</p><span class="screen-tag">Auth</span></div>
+        </a>
+        <a class="screen-card" href="screens/otp.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M4 13h18M13 4v18" stroke="#fff" stroke-width="2.5"/></svg></div></div></div>
+          <div class="screen-info"><h3>OTP Verification</h3><p>6-digit code with resend timer</p><span class="screen-tag">Auth</span></div>
+        </a>
+        <a class="screen-card" href="screens/biometric-setup.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M9 9a4 4 0 0 1 8 0c0 2.8-1.7 4.7-4 7.5C10.7 13.7 9 11.8 9 9z"/><circle cx="13" cy="9" r="1.5" fill="#fff" stroke="#fff"/></svg></div></div></div>
+          <div class="screen-info"><h3>Biometric Setup</h3><p>Enable fingerprint / Face ID</p><span class="screen-tag">Security</span></div>
+        </a>
+        <a class="screen-card" href="screens/biometric-unlock.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><rect x="4" y="11" width="18" height="13" rx="2"/><path d="M9 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div>
+          <div class="screen-info"><h3>Biometric Unlock</h3><p>Fingerprint lock screen</p><span class="screen-tag">Security</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. Onboarding -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="M9 3l3 3 3-3"/></svg></div>
+        <div><h2>Onboarding</h2><p>Verification checklist and documents</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">2 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/verification.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M5 13l5 5L21 7"/></svg></div></div></div>
+          <div class="screen-info"><h3>Verification Checklist</h3><p>8-step onboarding with 72% progress</p><span class="screen-tag action">Action needed</span></div>
+        </a>
+        <a class="screen-card" href="screens/documents.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M16 3H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-4-4z"/><path d="M16 3v5h5"/><path d="M9 13h8M9 17h5"/></svg></div></div></div>
+          <div class="screen-info"><h3>Documents</h3><p>Upload & verification status for all docs</p><span class="screen-tag action">2 rejected</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. Core app -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-appt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div><h2>Dashboard &amp; Appointments</h2><p>Main app hub and appointment management</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">3 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/dashboard.html">
+          <div class="screen-thumb"><img src="assets/clinic-main.svg" alt="Dashboard preview" /></div>
+          <div class="screen-info"><h3>Dashboard</h3><p>Today's schedule, quick actions, earnings</p><span class="screen-tag new">Home</span></div>
+        </a>
+        <a class="screen-card" href="screens/appointments.html">
+          <div class="screen-thumb"><img src="assets/clinic-room.svg" alt="Appointments preview" /></div>
+          <div class="screen-info"><h3>Appointments</h3><p>Today / Upcoming / Completed tabs</p><span class="screen-tag">Appointments</span></div>
+        </a>
+        <a class="screen-card" href="screens/appointment-detail.html">
+          <div class="screen-thumb"><img src="assets/session.svg" alt="Appointment detail preview" /></div>
+          <div class="screen-info"><h3>Appointment Detail</h3><p>Patient info, session actions</p><span class="screen-tag">Detail</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. Session flow -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+        <div><h2>Session Flow</h2><p>OTP &rarr; Active session &rarr; Treatment &rarr; Complete</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">5 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/route.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M13 3C9.7 3 7 5.7 7 9c0 5 6 13 6 13s6-8 6-13c0-3.3-2.7-6-6-6z"/><circle cx="13" cy="9" r="2.5" fill="#fff" stroke="#fff"/></svg></div></div></div>
+          <div class="screen-info"><h3>Route / Navigate</h3><p>Map, distance, ETA, visit checklist</p><span class="screen-tag">Navigation</span></div>
+        </a>
+        <a class="screen-card" href="screens/session-otp.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><rect x="5" y="11" width="16" height="12" rx="2"/><path d="M9 11V8a4 4 0 0 1 8 0v3"/><circle cx="13" cy="17" r="2" fill="#fff" stroke="#fff"/></svg></div></div></div>
+          <div class="screen-info"><h3>Session OTP</h3><p>Patient OTP entry to start session</p><span class="screen-tag">OTP</span></div>
+        </a>
+        <a class="screen-card" href="screens/active-session.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="9"/><path d="M13 8v5l3.5 2"/></svg></div></div></div>
+          <div class="screen-info"><h3>Active Session</h3><p>Timer, checklist, notes, end session</p><span class="screen-tag new">Live</span></div>
+        </a>
+        <a class="screen-card" href="screens/treatment-form.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M17 3H9a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-4-4z"/><path d="M17 3v5h5M10 13h7M10 17h5"/></svg></div></div></div>
+          <div class="screen-info"><h3>Treatment Form</h3><p>Chief complaint, assessment, exercises</p><span class="screen-tag">Form</span></div>
+        </a>
+        <a class="screen-card" href="screens/session-complete.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="9"/><path d="M9 13l3 3 5-5"/></svg></div></div></div>
+          <div class="screen-info"><h3>Session Complete</h3><p>Success state, payout queued</p><span class="screen-tag new">Done</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 5. Patients -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-patient"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><h2>Patients</h2><p>Patient list and detailed profiles</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">2 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/patients.html">
+          <div class="screen-thumb"><img src="assets/patient-list.svg" alt="Patients preview" /></div>
+          <div class="screen-info"><h3>Patient List</h3><p>Search, filter, active patients</p><span class="screen-tag">Patients</span></div>
+        </a>
+        <a class="screen-card" href="screens/patient-profile.html">
+          <div class="screen-thumb"><img src="assets/patient-profile.svg" alt="Patient profile preview" /></div>
+          <div class="screen-info"><h3>Patient Profile</h3><p>History, notes, progress, follow-up</p><span class="screen-tag">Profile</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 6. Earnings -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-earn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div><h2>Earnings</h2><p>Dashboard, transactions, payouts</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">2 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/earnings.html">
+          <div class="screen-thumb"><img src="assets/earnings.svg" alt="Earnings preview" /></div>
+          <div class="screen-info"><h3>Earnings Dashboard</h3><p>Today/weekly/monthly with charts</p><span class="screen-tag">Earnings</span></div>
+        </a>
+        <a class="screen-card" href="screens/transactions.html">
+          <div class="screen-thumb"><img src="assets/earnings.svg" alt="Transactions preview" /></div>
+          <div class="screen-info"><h3>Transactions</h3><p>Paid/pending list, payout details</p><span class="screen-tag">Transactions</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 7. Profile / More -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div><h2>Profile &amp; More</h2><p>Public profile, clinic, articles, availability</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">6 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/profile.html">
+          <div class="screen-thumb"><img src="assets/avatar-doctor.svg" alt="Profile preview" /></div>
+          <div class="screen-info"><h3>Profile</h3><p>Edit public profile, bio, gallery</p><span class="screen-tag">Profile</span></div>
+        </a>
+        <a class="screen-card" href="screens/availability.html">
+          <div class="screen-thumb"><img src="assets/tools.svg" alt="Availability preview" /></div>
+          <div class="screen-info"><h3>Availability</h3><p>Weekly calendar, slot management</p><span class="screen-tag">Schedule</span></div>
+        </a>
+        <a class="screen-card" href="screens/clinic.html">
+          <div class="screen-thumb"><img src="assets/clinic-equipment.svg" alt="Clinic preview" /></div>
+          <div class="screen-info"><h3>Clinic Showcase</h3><p>Clinic photos, facilities, timings</p><span class="screen-tag">Clinic</span></div>
+        </a>
+        <a class="screen-card" href="screens/articles.html">
+          <div class="screen-thumb"><img src="assets/article-cover.svg" alt="Articles preview" /></div>
+          <div class="screen-info"><h3>FAQ &amp; Articles</h3><p>Manage FAQs and published articles</p><span class="screen-tag">Content</span></div>
+        </a>
+        <a class="screen-card" href="screens/subscription.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M12 2l2.6 5.3 5.9.9-4.3 4.2 1 5.9L12 15.7l-5.2 2.6 1-5.9L3.5 8.2l5.9-.9z"/></svg></div></div></div>
+          <div class="screen-info"><h3>Subscription</h3><p>Plan status and upgrade options</p><span class="screen-tag">Premium</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 8. Utility -->
+    <div class="flow-section">
+      <div class="flow-header">
+        <div class="flow-icon fi-util"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 20v3M3 13h3M20 13h3M6.1 6.1l2.1 2.1M17.8 17.8l2.1 2.1M6.1 19.9l2.1-2.1M17.8 8.2l2.1-2.1"/></svg></div>
+        <div><h2>Utility &amp; Support</h2><p>Settings, notifications, help, edge states</p></div>
+        <div class="flow-line"></div>
+        <div class="flow-count">4 screens</div>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="screens/settings.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="3"/><path d="M13 3v3M13 20v3M3 13h3M20 13h3M6.1 6.1l2.1 2.1M17.8 17.8l2.1 2.1M6.1 19.9l2.1-2.1M17.8 8.2l2.1-2.1"/></svg></div></div></div>
+          <div class="screen-info"><h3>Settings</h3><p>Account, security, language, logout</p><span class="screen-tag">Settings</span></div>
+        </a>
+        <a class="screen-card" href="screens/notifications.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><path d="M13 3a8 8 0 0 0-8 8v4l-2 2h20l-2-2v-4a8 8 0 0 0-8-8z"/><path d="M10 20a3 3 0 0 0 6 0"/></svg></div></div></div>
+          <div class="screen-info"><h3>Notifications</h3><p>Appointments, payments, alerts</p><span class="screen-tag new">3 new</span></div>
+        </a>
+        <a class="screen-card" href="screens/help.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="9"/><path d="M10 10a3 3 0 0 1 6 0c0 2-3 3-3 5"/><circle cx="13" cy="19" r="1" fill="#fff" stroke="#fff"/></svg></div></div></div>
+          <div class="screen-info"><h3>Help &amp; Support</h3><p>FAQs, raise ticket, call support</p><span class="screen-tag">Support</span></div>
+        </a>
+        <a class="screen-card" href="screens/empty-states.html">
+          <div class="screen-thumb"><div class="thumb-overlay"><div class="thumb-icon"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="9"/><path d="M13 9v5M13 17v1"/></svg></div></div></div>
+          <div class="screen-info"><h3>Empty &amp; Error States</h3><p>Loading, offline, no-data states</p><span class="screen-tag">Edge cases</span></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

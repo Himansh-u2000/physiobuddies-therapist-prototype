@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notifications — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .notif-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px 8px;
+    }
+    .notif-toolbar h1 { font-size: 20px; }
+    .unread-count {
+      background: oklch(58% 0.18 28);
+      color: #fff;
+      border-radius: 99px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .notif-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 16px 16px 8px;
+    }
+
+    .notif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-strong);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--fg);
+      transition: background .12s;
+      position: relative;
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item.unread { background: oklch(98.5% 0.018 236); }
+    .notif-item.unread::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 0 2px 2px 0;
+    }
+    .notif-icon {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      background: var(--primary-soft);
+    }
+    .notif-icon.patient { background: oklch(93% 0.05 190); }
+    .notif-icon.pay    { background: oklch(93% 0.05 150); }
+    .notif-icon.doc    { background: oklch(95% 0.04 28); }
+    .notif-icon.appt   { background: oklch(94% 0.04 236); }
+    .notif-icon.system { background: oklch(94% 0.02 240); }
+
+    .notif-patient-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .notif-content { flex: 1; min-width: 0; }
+    .notif-content h3 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .notif-content p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .notif-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+    .notif-time { font-size: 11px; color: var(--muted); }
+    .notif-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .notif-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+
+    .notif-section {
+      background: var(--surface-strong);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      margin: 0 16px 14px;
+      overflow: hidden;
+    }
+
+    .empty-notif {
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .empty-notif .en-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-notif p { font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0; padding-bottom:90px">
+
+      <div class="notif-toolbar">
+        <div style="display:flex;align-items:center">
+          <h1>Notifications</h1>
+          <span class="unread-count">3</span>
+        </div>
+        <button class="btn ghost small" data-toast="All notifications marked as read" style="font-size:12px">Mark all read</button>
+      </div>
+
+      <!-- Today -->
+      <div class="notif-group-label">Today</div>
+      <div class="notif-section">
+
+        <!-- Appointment change — unread -->
+        <a class="notif-item unread" href="appointment-detail.html">
+          <div class="notif-icon appt">📅</div>
+          <div class="notif-content">
+            <h3>Appointment rescheduled</h3>
+            <p>Neha Kapoor moved her clinic visit from 11:00 AM to 2:30 PM today.</p>
+            <div class="notif-meta">
+              <span class="notif-time">10 min ago</span>
+            </div>
+            <div class="notif-actions">
+              <button class="btn small" data-toast="Viewing updated slot">View appointment</button>
+              <button class="btn small secondary" data-toast="Accepted">Accept</button>
+            </div>
+          </div>
+          <div class="notif-right">
+            <div class="notif-dot"></div>
+            <span class="chip pending">New</span>
+          </div>
+        </a>
+
+        <!-- Patient message — unread -->
+        <a class="notif-item unread" href="patient-profile.html">
+          <img class="notif-patient-avatar" src="../assets/avatar-amit.svg" alt="Amit Verma" />
+          <div class="notif-content">
+            <h3>Message from Amit Verma</h3>
+            <p>"Dr. Riya, just wanted to share an update — the exercises are helping a lot. Pain has come down to 3/10."</p>
+            <div class="notif-meta">
+              <span class="notif-time">35 min ago</span>
+            </div>
+            <div class="notif-actions">
+              <button class="btn small secondary" data-toast="Opening chat">Reply</button>
+            </div>
+          </div>
+          <div class="notif-right">
+            <div class="notif-dot"></div>
+          </div>
+        </a>
+
+        <!-- Payout — unread -->
+        <div class="notif-item unread">
+          <div class="notif-icon pay">💸</div>
+          <div class="notif-content">
+            <h3>Payout processed</h3>
+            <p>₹8,450 has been settled to your HDFC account ending 2041.</p>
+            <div class="notif-meta">
+              <span class="notif-time">2 hrs ago</span>
+            </div>
+            <div class="notif-actions">
+              <a class="btn small secondary" href="transactions.html">View transaction</a>
+            </div>
+          </div>
+          <div class="notif-right">
+            <div class="notif-dot"></div>
+            <span class="chip active">Paid</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Yesterday -->
+      <div class="notif-group-label">Yesterday</div>
+      <div class="notif-section">
+
+        <!-- Doc rejection -->
+        <a class="notif-item" href="documents.html">
+          <div class="notif-icon doc">⚠️</div>
+          <div class="notif-content">
+            <h3>Document rejected</h3>
+            <p>Your Registration Certificate upload was rejected. The registration number is partially blurred. Please re-upload a clear scan.</p>
+            <div class="notif-meta">
+              <span class="notif-time">Yesterday, 4:22 PM</span>
+            </div>
+            <div class="notif-actions">
+              <button class="btn small" data-toast="Opening documents">Re-upload now</button>
+            </div>
+          </div>
+          <div class="notif-right">
+            <span class="chip rejected">Action</span>
+          </div>
+        </a>
+
+        <!-- New booking -->
+        <a class="notif-item" href="appointments.html">
+          <div class="notif-icon appt">📅</div>
+          <div class="notif-content">
+            <h3>New appointment booked</h3>
+            <p>Rohan Mehta has booked a home visit for tomorrow at 8:00 AM. Service: Post-surgery rehabilitation.</p>
+            <div class="notif-meta">
+              <span class="notif-time">Yesterday, 2:15 PM</span>
+            </div>
+          </div>
+          <div class="notif-right">
+            <span class="chip info">New booking</span>
+          </div>
+        </a>
+
+        <!-- Patient review -->
+        <div class="notif-item">
+          <img class="notif-patient-avatar" src="../assets/avatar-neha.svg" alt="Neha Kapoor" />
+          <div class="notif-content">
+            <h3>New 5-star review</h3>
+            <p>Neha Kapoor left a 5★ review: "Dr. Riya is incredibly patient and knowledgeable. My back pain has reduced significantly in just 4 sessions!"</p>
+            <div class="notif-meta">
+              <span class="notif-time">Yesterday, 11:45 AM</span>
+            </div>
+          </div>
+          <div class="notif-right">
+            <span class="chip active">⭐ 5.0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Earlier -->
+      <div class="notif-group-label">Earlier this week</div>
+      <div class="notif-section">
+
+        <div class="notif-item">
+          <div class="notif-icon system">⚙️</div>
+          <div class="notif-content">
+            <h3>Availability updated</h3>
+            <p>Your Saturday slots (9:00 AM – 5:00 PM) have been published on your profile.</p>
+            <div class="notif-meta">
+              <span class="notif-time">2 Jun, 9:00 AM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-icon pay">💸</div>
+          <div class="notif-content">
+            <h3>Weekly earnings report</h3>
+            <p>You earned ₹18,400 this week across 14 completed sessions. Up 12% from last week.</p>
+            <div class="notif-meta">
+              <span class="notif-time">1 Jun, 8:00 AM</span>
+            </div>
+            <div class="notif-actions">
+              <a class="btn small secondary" href="earnings.html">View report</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-icon system">🔔</div>
+          <div class="notif-content">
+            <h3>Subscription renewing soon</h3>
+            <p>Your Premium Plan expires in 378 days. Auto-renewal is enabled.</p>
+            <div class="notif-meta">
+              <span class="notif-time">30 May, 10:00 AM</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init();</script>
+</body>
+</html>

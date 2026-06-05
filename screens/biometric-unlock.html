@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .unlock-bg {
+      position: absolute; inset: 0;
+      background-image: url('../assets/clinic-room.svg');
+      background-size: cover; background-position: center 30%;
+      z-index: 0;
+    }
+    .unlock-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, oklch(14% .04 240 / .58), oklch(14% .04 240 / .82));
+    }
+    .unlock-screen {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      padding: 60px 24px 48px;
+      text-align: center; color: white;
+    }
+    .fp-unlock-ring {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: oklch(100% 0 0 / .14);
+      border: 2px solid oklch(100% 0 0 / .28);
+      display: grid; place-items: center;
+      position: relative;
+      cursor: pointer;
+      transition: transform .15s, background .15s;
+    }
+    .fp-unlock-ring:active { transform: scale(.96); background: oklch(100% 0 0 / .22); }
+    .fp-unlock-ring.pulsing::after {
+      content: '';
+      position: absolute; inset: -14px;
+      border-radius: 50%;
+      border: 2px solid oklch(100% 0 0 / .3);
+      animation: fp-ring 1.4s ease-out infinite;
+    }
+    @keyframes fp-ring { 0% { opacity: .6; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
+    .fp-unlock-ring svg { width: 64px; height: 64px; color: white; }
+  </style>
+</head>
+<body class="phone-screen" style="background:#000;overflow:hidden">
+  <div class="unlock-bg"></div>
+  <div class="unlock-screen">
+    <div>
+      <img src="https://physiobuddies.in/assets/logo-CZkn2wwb.png" alt="Logo" class="logo-mark" style="width: auto; height: 100%; max-height: 48px; object-fit: contain; background: transparent; border-radius: 0;" />
+      <h1 style="font-size:18px;color:white;font-weight:800">Physiobuddies Therapist</h1>
+    </div>
+    <div style="display:grid;gap:20px;align-items:center;justify-items:center">
+      <div class="fp-unlock-ring pulsing" id="fp-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2c2.7 0 5 1.7 5.9 4.1"/><path d="M12 2C9.2 2 7 3.8 6 6.2"/>
+          <path d="M9 12c0-1.66 1.34-3 3-3s3 1.34 3 3c0 3-3 5-3 5s-3-2-3-5z"/>
+          <path d="M6 9.5C6.5 7 9 5 12 5s5.5 2 6 4.5"/>
+          <path d="M3.5 14.5C4 12 5.5 10 7.5 9"/><path d="M16.5 9c2 1 3.5 3 4 5.5"/>
+        </svg>
+      </div>
+      <div>
+        <p style="color:white;font-weight:700;font-size:15px">Touch to unlock</p>
+        <p style="color:rgba(255,255,255,.64);font-size:12px;margin-top:4px">Dr. Riya Sharma · MPT Orthopedics</p>
+      </div>
+    </div>
+    <div style="display:grid;gap:10px;width:100%;max-width:300px">
+      <a class="btn" href="otp.html" style="background:oklch(100% 0 0 / .16);color:white;border-color:oklch(100% 0 0 / .24);box-shadow:none">
+        Use OTP instead
+      </a>
+      <p style="color:rgba(255,255,255,.44);font-size:11px">Not Dr. Riya? <a href="login.html" style="color:rgba(255,255,255,.72);font-weight:700">Switch account</a></p>
+    </div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({});
+    const ring = document.getElementById('fp-btn');
+    ring.addEventListener('click', () => {
+      ring.classList.remove('pulsing');
+      ring.style.background = 'oklch(92% .06 150 / .3)';
+      ring.style.borderColor = 'oklch(92% .06 150 / .6)';
+      App.toast('Fingerprint recognised — logging in…');
+      setTimeout(() => window.location.href = 'dashboard.html', 900);
+    });
+  </script>
+</body>
+</html>

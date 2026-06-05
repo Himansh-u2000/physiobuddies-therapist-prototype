@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subscription – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .sub-active-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 0 16px 16px;
+    }
+    .sub-active-card .header-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .sub-active-card h3 { font-size: 16px; font-weight: 760; }
+    .sub-active-card p { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .crown-icon { color: #e6a817; font-size: 22px; line-height: 1; }
+    .days-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 14px 0 8px;
+    }
+    .days-row label { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .days-row strong { font-size: 13px; font-weight: 760; color: var(--fg); }
+    .progress-bar {
+      height: 8px; border-radius: 99px;
+      background: var(--border); overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, oklch(42% .10 238), oklch(54% .12 198));
+    }
+    .plan-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px; margin: 0 16px 16px;
+    }
+    .plan-card {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      background: white;
+      position: relative;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .plan-card:active { transform: scale(.97); }
+    .plan-card.popular {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px oklch(31% .08 238 / .14);
+    }
+    .popular-badge {
+      position: absolute; top: -11px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent); color: white;
+      font-size: 10px; font-weight: 700;
+      padding: 3px 10px; border-radius: 99px;
+      white-space: nowrap;
+    }
+    .plan-card .plan-duration { font-size: 13px; font-weight: 760; color: var(--fg); margin-bottom: 6px; }
+    .plan-card .plan-price { font-size: 22px; font-weight: 900; color: var(--accent); letter-spacing: -.02em; }
+    .plan-card .plan-price span { font-size: 12px; font-weight: 500; color: var(--muted); }
+    .plan-card .plan-per { font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .feature-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 11px 16px;
+      border-bottom: 1px solid oklch(96% .006 240);
+    }
+    .feature-row:last-child { border-bottom: none; }
+    .feature-icon {
+      width: 32px; height: 32px; border-radius: 9px;
+      display: grid; place-items: center; flex: 0 0 auto;
+      background: var(--primary-soft);
+    }
+    .feature-text strong { font-size: 13px; display: block; }
+    .feature-text span { font-size: 11px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0 0 80px">
+
+      <div class="page-title" style="padding:14px 16px 0">
+        <div style="display:flex;align-items:center;gap:10px">
+          <a class="icon-btn" href="profile.html">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="m15 18-6-6 6-6"/></svg>
+          </a>
+          <h1>Subscription</h1>
+        </div>
+      </div>
+
+      <!-- Active Subscription -->
+      <div style="margin:14px 16px 6px;font-size:16px;font-weight:760">Active Subscription</div>
+      <div class="sub-active-card">
+        <div class="header-row">
+          <div>
+            <h3>Premium Plan</h3>
+            <p>Full access to all features</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="chip active" style="font-size:10px">Active</span>
+            <span class="crown-icon">♛</span>
+          </div>
+        </div>
+        <div class="days-row">
+          <label>Days Remaining</label>
+          <strong>378 days</strong>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width:88%"></div>
+        </div>
+        <p class="subtle" style="font-size:11px;margin-top:8px">Renews on May 17, 2027 · Auto-renewal off</p>
+      </div>
+
+      <!-- Choose Your Plan -->
+      <div style="margin:20px 16px 6px;text-align:center">
+        <h2 style="font-size:17px;font-weight:800">Choose Your Plan</h2>
+        <p class="subtle" style="font-size:12px;margin-top:4px">Unlock all premium features and grow your practice</p>
+      </div>
+
+      <div class="plan-grid">
+        <div class="plan-card" onclick="App.toast('3-month plan selected')">
+          <div class="plan-duration">3 Months</div>
+          <div class="plan-price">₹449</div>
+          <div class="plan-per">₹150/mo</div>
+        </div>
+        <div class="plan-card popular" onclick="App.toast('12-month plan selected')">
+          <div class="popular-badge">♛ Most Popular</div>
+          <div class="plan-duration">12 Months</div>
+          <div class="plan-price">₹1,199</div>
+          <div class="plan-per">₹100/mo</div>
+        </div>
+        <div class="plan-card" onclick="App.toast('6-month plan selected')">
+          <div class="plan-duration">6 Months</div>
+          <div class="plan-price">₹749</div>
+          <div class="plan-per">₹125/mo</div>
+        </div>
+      </div>
+
+      <div style="padding: 0 16px 20px">
+        <button class="btn" style="width:100%" data-toast="Plan upgraded — Premium active for 12 months">Upgrade Plan</button>
+      </div>
+
+      <!-- What's included -->
+      <div style="margin:4px 16px 8px;font-size:15px;font-weight:760">What's included</div>
+      <div class="section-card" style="margin:0 16px 80px;background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden">
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#e8f4fd">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div class="feature-text"><strong>Unlimited Appointments</strong><span>Accept unlimited patient bookings per month</span></div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#edfaf1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#16a34a" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="feature-text"><strong>Profile Verification Badge</strong><span>Verified therapist badge visible to patients</span></div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#fef9ec">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#d97706" stroke-width="2" width="16" height="16"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="feature-text"><strong>Fast Payouts</strong><span>Next-day settlement to your bank account</span></div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#f3eeff">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#7c3aed" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="feature-text"><strong>Publish Articles &amp; FAQs</strong><span>Build your public presence and patient trust</span></div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#fff0f5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#e11d48" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="feature-text"><strong>Clinic Showcase</strong><span>Showcase your clinic photos and facilities publicly</span></div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon" style="background:#fff4e5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ea580c" stroke-width="2" width="16" height="16"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="feature-text"><strong>Priority Support</strong><span>Dedicated helpline and 4-hour response SLA</span></div>
+        </div>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: 'profile' });</script>
+</body>
+</html>

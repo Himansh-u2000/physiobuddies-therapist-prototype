@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="earn-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf6f0"/>
+      <stop offset="1" stop-color="#f7fbf9"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#earn-bg)"/>
+  <g transform="translate(80,60)">
+    <rect width="440" height="100" rx="14" fill="#fff" stroke="#0f9b6c" stroke-width="2.5"/>
+    <text x="20" y="40" font-family="-apple-system, sans-serif" font-size="11" fill="#5a6b8a" font-weight="600" letter-spacing="0.1em">THIS MONTH</text>
+    <text x="20" y="78" font-family="-apple-system, sans-serif" font-size="32" font-weight="800" fill="#0a3a2a">₹ 48,250</text>
+    <g transform="translate(330,30)">
+      <rect width="90" height="40" rx="20" fill="#0f9b6c" opacity="0.15"/>
+      <text x="45" y="25" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#0f9b6c" text-anchor="middle">+12.4%</text>
+    </g>
+  </g>
+  <g transform="translate(80,180)">
+    <rect width="440" height="160" rx="14" fill="#fff" stroke="#a8c5b8" stroke-width="2"/>
+    <polyline points="30,120 80,90 130,100 180,70 230,80 280,50 330,60 380,30 410,40" stroke="#0f9b6c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="30" y1="120" x2="410" y2="120" stroke="#a8c5b8" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="30" y1="80" x2="410" y2="80" stroke="#a8c5b8" stroke-width="1" stroke-dasharray="4 4"/>
+  </g>
+</svg>

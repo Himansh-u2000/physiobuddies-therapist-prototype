@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clinic Showcase — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .clinic-hero {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      background: oklch(94% 0.02 236);
+    }
+    .clinic-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+    .clinic-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, oklch(19% 0.045 246 / .7) 0%, transparent 60%);
+    }
+    .clinic-hero-bar {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .clinic-hero-bar h2 { color: #fff; font-size: 18px; font-weight: 800; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
+    .clinic-hero-bar p { color: rgba(255,255,255,.8); font-size: 12px; margin-top: 2px; }
+    .clinic-hero-bar .btn { flex-shrink: 0; }
+
+    .photo-strip {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    .photo-strip::-webkit-scrollbar { display: none; }
+    .photo-item {
+      width: 90px;
+      height: 72px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+    }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-item.add-photo {
+      border: 1.5px dashed var(--border);
+      background: oklch(96% 0.02 236);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .photo-item.add-photo span { font-size: 20px; }
+
+    .status-bar-row {
+      display: flex;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .stat-pill {
+      flex: 1;
+      background: var(--surface-strong);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-pill .sp-val { font-size: 18px; font-weight: 800; color: var(--accent); display: block; }
+    .stat-pill .sp-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+    .form-section { padding: 0 16px; }
+    .form-section h3 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin: 20px 0 12px;
+    }
+    .field { margin-bottom: 14px; }
+    .field label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 5px; }
+    .field .input {
+      width: 100%;
+      background: var(--surface-strong);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      color: var(--fg);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .field .input:focus { border-color: var(--accent); }
+    .field textarea.input { min-height: 80px; resize: vertical; }
+
+    .timing-rows { display: flex; flex-direction: column; gap: 10px; }
+    .timing-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-strong);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .timing-row .day { font-size: 13px; font-weight: 700; width: 38px; color: var(--fg); }
+    .timing-row .times { flex: 1; font-size: 12px; color: var(--muted); }
+    .timing-row .toggle { flex-shrink: 0; }
+
+    .service-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .svc-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--primary-soft);
+      color: var(--accent);
+      border: 1px solid oklch(84% 0.04 236);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .svc-chip .remove { font-size: 14px; color: var(--muted); }
+    .svc-chip.add-chip {
+      background: transparent;
+      border-style: dashed;
+      color: var(--muted);
+    }
+
+    .staff-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .staff-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-strong);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .staff-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .staff-info { flex: 1; }
+    .staff-info h4 { font-size: 13px; font-weight: 700; }
+    .staff-info p { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    .save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface-strong);
+      border-top: 1.5px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      z-index: 50;
+    }
+    .save-bar .btn { flex: 1; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen no-tabs" style="padding:0; padding-bottom:80px">
+
+      <!-- Clinic hero image -->
+      <div class="clinic-hero">
+        <img src="../assets/clinic-main.svg" alt="Clinic" />
+        <div class="clinic-hero-overlay"></div>
+        <div class="clinic-hero-bar">
+          <div>
+            <h2>Physiobuddies Rehab Clinic</h2>
+            <p>Andheri West, Mumbai · Public listing</p>
+          </div>
+          <span class="chip active" style="flex-shrink:0">Visible</span>
+        </div>
+      </div>
+
+      <!-- Photo strip -->
+      <div class="photo-strip">
+        <div class="photo-item"><img src="../assets/clinic-main.svg" alt="Reception" /></div>
+        <div class="photo-item"><img src="../assets/clinic-room.svg" alt="Treatment" style="object-position:center 20%" /></div>
+        <div class="photo-item"><img src="../assets/clinic-equipment.svg" alt="Equipment" /></div>
+        <div class="photo-item add-photo" data-toast="Photo picker opened"><span>+</span>Add</div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="status-bar-row">
+        <div class="stat-pill"><span class="sp-val">312</span><span class="sp-lbl">Patients</span></div>
+        <div class="stat-pill"><span class="sp-val">4.9</span><span class="sp-lbl">Rating</span></div>
+        <div class="stat-pill"><span class="sp-val">8</span><span class="sp-lbl">Years</span></div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-section">
+
+        <h3>Basic info</h3>
+        <div class="field">
+          <label>Clinic name</label>
+          <input class="input" value="Physiobuddies Rehab Clinic" />
+        </div>
+        <div class="field">
+          <label>Address</label>
+          <input class="input" value="Shop 4, Lotus Chambers, Andheri West, Mumbai — 400058" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input class="input" type="tel" value="+91 98765 43210" />
+        </div>
+        <div class="field">
+          <label>About this clinic</label>
+          <textarea class="input">State-of-the-art physiotherapy and rehabilitation centre offering manual therapy, electrotherapy, post-surgery rehab, sports injury care, and geriatric physiotherapy.</textarea>
+        </div>
+
+        <h3>Facilities</h3>
+        <div class="service-chips">
+          <span class="svc-chip">Manual therapy <span class="remove">×</span></span>
+          <span class="svc-chip">Electrotherapy <span class="remove">×</span></span>
+          <span class="svc-chip">Rehab gym <span class="remove">×</span></span>
+          <span class="svc-chip">Gait training <span class="remove">×</span></span>
+          <span class="svc-chip">Hydrotherapy <span class="remove">×</span></span>
+          <span class="svc-chip add-chip">+ Add facility</span>
+        </div>
+
+        <h3>Services offered</h3>
+        <div class="service-chips" style="margin-bottom:4px">
+          <span class="svc-chip">Back pain rehab <span class="remove">×</span></span>
+          <span class="svc-chip">Sports injury <span class="remove">×</span></span>
+          <span class="svc-chip">Post-surgery rehab <span class="remove">×</span></span>
+          <span class="svc-chip">Neck pain <span class="remove">×</span></span>
+          <span class="svc-chip">Geriatric physio <span class="remove">×</span></span>
+          <span class="svc-chip add-chip">+ Add service</span>
+        </div>
+
+        <h3>Timings</h3>
+        <div class="timing-rows">
+          <div class="timing-row"><span class="day">Mon</span><span class="times">9:00 AM – 8:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Tue</span><span class="times">9:00 AM – 8:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Wed</span><span class="times">9:00 AM – 8:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Thu</span><span class="times">9:00 AM – 8:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Fri</span><span class="times">9:00 AM – 8:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Sat</span><span class="times">9:00 AM – 5:00 PM</span><button class="toggle active" data-toast="Day toggled"><span class="knob"></span></button></div>
+          <div class="timing-row"><span class="day">Sun</span><span class="times">Closed</span><button class="toggle" data-toast="Day toggled"><span class="knob"></span></button></div>
+        </div>
+
+        <h3>Staff / therapists</h3>
+        <div class="staff-list">
+          <div class="staff-row">
+            <img class="staff-avatar" src="../assets/avatar-doctor.svg" alt="Dr. Riya Sharma" />
+            <div class="staff-info">
+              <h4>Dr. Riya Sharma</h4>
+              <p>MPT Orthopedics · Owner</p>
+            </div>
+            <span class="chip active">Primary</span>
+          </div>
+          <div class="staff-row">
+            <div class="staff-avatar" style="background:var(--primary-soft);display:grid;place-items:center;font-size:16px">👤</div>
+            <div class="staff-info">
+              <h4>Add staff member</h4>
+              <p>Invite a colleague to this clinic</p>
+            </div>
+            <button class="btn small secondary" data-toast="Invite sent">Invite</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <div class="save-bar">
+      <button class="btn secondary" data-toast="Preview opened">Preview</button>
+      <button class="btn" data-toast="Clinic details saved ✓">Save changes</button>
+    </div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "profile" });</script>
+</body>
+</html>

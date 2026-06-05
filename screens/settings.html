@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .settings-avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 20px;
+      gap: 10px;
+    }
+    .settings-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: url('../assets/avatar-doctor.svg') center/cover;
+      border: 3px solid var(--surface-strong);
+      box-shadow: var(--shadow-md);
+    }
+    .settings-avatar-section h2 { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
+    .settings-avatar-section p { font-size: 12px; color: var(--muted); }
+    .settings-avatar-section .badges { display: flex; gap: 6px; }
+
+    .settings-group {
+      margin: 0 16px 20px;
+      background: var(--surface-strong);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+    .settings-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 14px 16px 8px;
+      margin: 0 16px 4px;
+      border-bottom: none;
+    }
+    .settings-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--fg);
+      transition: background .12s;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row:active { background: var(--primary-soft); }
+    .settings-row-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .settings-row-icon.blue  { background: oklch(94% 0.04 236); }
+    .settings-row-icon.green { background: oklch(93% 0.04 150); }
+    .settings-row-icon.orange { background: oklch(95% 0.04 60); }
+    .settings-row-icon.red   { background: oklch(95% 0.04 28); }
+    .settings-row-icon.purple { background: oklch(95% 0.04 300); }
+    .settings-row-icon.slate { background: oklch(94% 0.02 240); }
+    .settings-row-text { flex: 1; }
+    .settings-row-text h3 { font-size: 14px; font-weight: 600; }
+    .settings-row-text p { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .settings-row-right { display: flex; align-items: center; gap: 8px; }
+    .settings-arrow { color: var(--muted); font-size: 16px; }
+    .settings-value { font-size: 12px; color: var(--muted); }
+
+    .logout-btn {
+      margin: 4px 16px 24px;
+      width: calc(100% - 32px);
+      background: oklch(96% 0.04 28);
+      color: oklch(44% 0.14 28);
+      border: 1.5px solid oklch(88% 0.06 28);
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .logout-btn:active { background: oklch(92% 0.06 28); }
+
+    .app-version { text-align: center; font-size: 11px; color: var(--muted); padding-bottom: 16px; }
+
+    /* Logout confirmation sheet */
+    .sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+    }
+    .sheet-overlay.open { display: flex; }
+    .sheet {
+      width: 100%;
+      background: var(--surface-strong);
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 36px;
+    }
+    .sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 99px; margin: 0 auto 20px; }
+    .sheet h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .sheet p { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .sheet-actions { display: flex; flex-direction: column; gap: 10px; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0; padding-bottom:90px">
+
+      <!-- Avatar section -->
+      <div class="settings-avatar-section">
+        <div class="settings-avatar"></div>
+        <h2>Dr. Riya Sharma</h2>
+        <p>+91 98765 43210 · riya.sharma@physiobuddies.com</p>
+        <div class="badges">
+          <span class="chip active">Verified</span>
+          <span class="chip info">Premium</span>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div class="settings-group-label" style="margin:0 16px 4px;padding:0 0 6px;border-bottom:1px solid var(--border)">Account</div>
+      <div class="settings-group">
+        <a class="settings-row" href="profile.html">
+          <div class="settings-row-icon blue">👤</div>
+          <div class="settings-row-text"><h3>Account details</h3><p>Name, phone, email, bio</p></div>
+          <div class="settings-row-right"><span class="settings-arrow">›</span></div>
+        </a>
+        <a class="settings-row" href="verification.html">
+          <div class="settings-row-icon green">✅</div>
+          <div class="settings-row-text"><h3>Verification status</h3><p>72% complete · 1 action needed</p></div>
+          <div class="settings-row-right"><span class="chip pending">Action</span><span class="settings-arrow">›</span></div>
+        </a>
+        <a class="settings-row" href="subscription.html">
+          <div class="settings-row-icon orange">⭐</div>
+          <div class="settings-row-text"><h3>Subscription plan</h3><p>Premium Plan · Renews Feb 2026</p></div>
+          <div class="settings-row-right"><span class="settings-value">378 days left</span><span class="settings-arrow">›</span></div>
+        </a>
+      </div>
+
+      <!-- Security -->
+      <div class="settings-group-label" style="margin:0 16px 4px;padding:0 0 6px;border-bottom:1px solid var(--border)">Security</div>
+      <div class="settings-group">
+        <a class="settings-row" href="biometric-setup.html">
+          <div class="settings-row-icon purple">🔐</div>
+          <div class="settings-row-text"><h3>Fingerprint / Face ID</h3><p>Unlock app without OTP</p></div>
+          <div class="settings-row-right">
+            <button class="toggle active" data-toast="Biometric toggled" onclick="event.preventDefault()"><span class="knob"></span></button>
+          </div>
+        </a>
+        <div class="settings-row">
+          <div class="settings-row-icon slate">📱</div>
+          <div class="settings-row-text"><h3>Registered device</h3><p>iPhone 15 Pro · Added 1 Mar 2024</p></div>
+          <div class="settings-row-right"><span class="settings-value">Trusted</span><span class="settings-arrow">›</span></div>
+        </div>
+        <div class="settings-row" data-toast="Change phone flow opened">
+          <div class="settings-row-icon blue">📞</div>
+          <div class="settings-row-text"><h3>Change phone number</h3><p>Requires OTP verification</p></div>
+          <div class="settings-row-right"><span class="settings-arrow">›</span></div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="settings-group-label" style="margin:0 16px 4px;padding:0 0 6px;border-bottom:1px solid var(--border)">Notifications</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-icon blue">🔔</div>
+          <div class="settings-row-text"><h3>Appointment reminders</h3><p>30 min before each session</p></div>
+          <div class="settings-row-right">
+            <button class="toggle active" data-toast="Reminders toggled" onclick="event.preventDefault()"><span class="knob"></span></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-icon green">💸</div>
+          <div class="settings-row-text"><h3>Payment alerts</h3><p>Notify when payouts are processed</p></div>
+          <div class="settings-row-right">
+            <button class="toggle active" data-toast="Payment alerts toggled" onclick="event.preventDefault()"><span class="knob"></span></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-icon slate">📣</div>
+          <div class="settings-row-text"><h3>Promotions</h3><p>New feature updates, tips</p></div>
+          <div class="settings-row-right">
+            <button class="toggle" data-toast="Promotions toggled" onclick="event.preventDefault()"><span class="knob"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- App -->
+      <div class="settings-group-label" style="margin:0 16px 4px;padding:0 0 6px;border-bottom:1px solid var(--border)">App</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-icon slate">🌐</div>
+          <div class="settings-row-text"><h3>Language</h3><p>App display language</p></div>
+          <div class="settings-row-right"><span class="settings-value">English</span><span class="settings-arrow">›</span></div>
+        </div>
+        <a class="settings-row" href="help.html">
+          <div class="settings-row-icon blue">❓</div>
+          <div class="settings-row-text"><h3>Help & support</h3><p>FAQs, raise a ticket, contact us</p></div>
+          <div class="settings-row-right"><span class="settings-arrow">›</span></div>
+        </a>
+        <div class="settings-row" data-toast="Opening privacy policy">
+          <div class="settings-row-icon slate">📄</div>
+          <div class="settings-row-text"><h3>Privacy policy</h3><p>How we handle your data</p></div>
+          <div class="settings-row-right"><span class="settings-arrow">›</span></div>
+        </div>
+        <div class="settings-row" data-toast="Opening terms">
+          <div class="settings-row-icon slate">📋</div>
+          <div class="settings-row-text"><h3>Terms of service</h3></div>
+          <div class="settings-row-right"><span class="settings-arrow">›</span></div>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="document.querySelector('.sheet-overlay').classList.add('open')">
+        🚪 Log out
+      </button>
+
+      <div class="app-version">Physiobuddies Therapist v2.4.1 · Build 2406</div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+
+  <!-- Logout confirmation sheet -->
+  <div class="sheet-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h3>Log out?</h3>
+      <p>You'll need to enter your phone number and OTP to log back in. Any unsaved treatment drafts will be lost.</p>
+      <div class="sheet-actions">
+        <button class="btn danger" data-toast="Logged out" onclick="document.querySelector('.sheet-overlay').classList.remove('open')">Yes, log out</button>
+        <button class="btn secondary" onclick="document.querySelector('.sheet-overlay').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "profile" });</script>
+</body>
+</html>

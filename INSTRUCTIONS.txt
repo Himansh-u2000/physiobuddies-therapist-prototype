@@ -1,0 +1,59 @@
+Physiobuddies Therapist — Clickable Prototype
+==============================================
+
+How to run
+----------
+1. Extract this folder anywhere on your computer.
+2. Double-click `index.html` to open it in your default browser.
+3. From the launcher, click "Launch App" or any screen card to browse.
+
+Tip: for the smoothest experience, use Chrome, Edge, or Firefox.
+Some screen transitions (open as `file://`) work best in Chrome/Edge.
+
+What is included
+----------------
+- `index.html`        — Launcher / overview of all 28 screens.
+- `screens/*.html`    — The 28 product screens (one file per screen).
+- `css/app.css`       — Shared design system & component styles.
+- `js/app.js`         — Header, bottom tabs, toasts, OTP, sheet handlers.
+- `assets/*.svg`      — All local illustrations, avatars, and scenes.
+
+Where to start
+--------------
+- Splash → Login → OTP (auth flow)
+- Dashboard (the main hub — has bottom tabs to navigate the rest)
+- Verification → Documents (onboarding)
+- Dashboard → Appointment → Route → Session OTP → Active session
+  → Treatment form → Session complete (the full session journey)
+
+Notes
+-----
+- The logo (top-left of auth screens and the launcher) is loaded
+  from `physiobuddies.in`. If you're offline, the logo won't appear
+  in those spots — everything else works fully offline.
+- The design is a high-fidelity static prototype. No data is
+  persisted, all forms are presentational, and toasts are cosmetic.
+
+File structure
+--------------
+  physiobuddies-designs/
+  |-- index.html
+  |-- css/app.css
+  |-- js/app.js
+  |-- assets/
+  |   |-- *.svg  (avatars, clinic scenes, logos, illustrations)
+  |   `-- physio-clinic-workflow.png  (reference)
+  |-- screens/
+  |   |-- splash.html, login.html, otp.html, ...
+  |   `-- (28 screens total)
+  |-- INSTRUCTIONS.txt   (this file)
+  |-- brand-spec.md
+  |-- DESIGN-HANDOFF.md
+  |-- DESIGN-MANIFEST.json
+  `-- critique.json
+
+Need to edit the design?
+------------------------
+- Colors / spacing / type → edit `:root` variables in `css/app.css`.
+- Logo / hero / thumbnails → replace files in `assets/`.
+- Screen content → edit the matching `screens/<name>.html`.

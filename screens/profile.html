@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+    .hero-cover {
+      position: absolute; inset: 0;
+      background: url('../assets/avatar-doctor.svg') center / cover no-repeat;
+    }
+    .hero-cover::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        0deg,
+        oklch(19% 0.045 246 / .92) 0%,
+        oklch(19% 0.045 246 / .55) 45%,
+        oklch(19% 0.045 246 / .18) 100%
+      );
+    }
+    .hero-top-bar {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+      z-index: 2;
+    }
+    .hero-back {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: oklch(100% 0 0 / .18); backdrop-filter: blur(8px);
+      border: 1px solid oklch(100% 0 0 / .22);
+      display: grid; place-items: center; color: white;
+    }
+    .hero-actions { display: flex; gap: 8px; }
+    .hero-action-btn {
+      height: 32px; padding: 0 12px; border-radius: 20px;
+      background: oklch(100% 0 0 / .18); backdrop-filter: blur(8px);
+      border: 1px solid oklch(100% 0 0 / .22);
+      color: white; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .hero-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0 16px 16px;
+      z-index: 2;
+    }
+    .hero-avatar-row {
+      display: flex; align-items: flex-end; gap: 12px; margin-bottom: 10px;
+    }
+    .hero-avatar {
+      width: 76px; height: 76px; border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 4px 20px oklch(0% 0 0 / .4);
+      background: url('../assets/avatar-doctor.svg') center / cover no-repeat;
+      flex-shrink: 0; position: relative;
+    }
+    .avatar-edit {
+      position: absolute; bottom: 1px; right: 1px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); border: 2px solid white;
+      display: grid; place-items: center; color: white;
+    }
+    .hero-name { color: white; }
+    .hero-name h2 { font-size: 19px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+    .hero-name p { font-size: 12px; color: oklch(100% 0 0 / .72); margin-top: 3px; }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      background: oklch(100% 0 0 / .10); backdrop-filter: blur(12px);
+      border: 1px solid oklch(100% 0 0 / .16);
+      border-radius: 14px; overflow: hidden;
+    }
+    .h-stat {
+      padding: 10px 8px; text-align: center;
+      border-right: 1px solid oklch(100% 0 0 / .12);
+    }
+    .h-stat:last-child { border-right: none; }
+    .h-stat-val { font-size: 18px; font-weight: 800; color: white; line-height: 1; }
+    .h-stat-lbl { font-size: 10px; color: oklch(100% 0 0 / .65); margin-top: 3px; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── Tabs ───────────────────────────────────────────── */
+    .profile-tabs {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex;
+    }
+    .ptab {
+      flex: 1; padding: 13px 4px; text-align: center;
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      letter-spacing: .01em; position: relative;
+      transition: color .15s;
+    }
+    .ptab.active { color: var(--accent); }
+    .ptab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 10%; right: 10%;
+      height: 2.5px; border-radius: 2px 2px 0 0;
+      background: var(--accent);
+    }
+
+    /* ── Tab panels ─────────────────────────────────────── */
+    .tab-panel { display: none; padding: 0 0 100px; }
+    .tab-panel.active { display: block; }
+
+    /* ── Overview ───────────────────────────────────────── */
+    .overview-section { padding: 16px 16px 0; }
+    .public-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 12px;
+      background: oklch(96.5% 0.032 150); border: 1px solid oklch(85% 0.06 150);
+      margin: 12px 16px 0;
+    }
+    .public-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+    .public-badge span { font-size: 12px; font-weight: 600; color: oklch(40% 0.1 150); }
+    .public-badge a { font-size: 11px; color: var(--accent); font-weight: 700; margin-left: auto; }
+
+    .spec-row { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 16px 0; }
+    .spec-chip {
+      padding: 5px 12px; border-radius: 20px;
+      background: var(--primary-soft); border: 1px solid oklch(82% 0.05 236);
+      font-size: 12px; font-weight: 600; color: var(--accent);
+    }
+
+    .rating-card {
+      margin: 14px 16px 0;
+      background: white; border-radius: 16px; border: 1px solid var(--border);
+      padding: 16px;
+    }
+    .rating-top { display: flex; align-items: center; gap: 12px; }
+    .rating-big { font-size: 42px; font-weight: 800; color: var(--fg); line-height: 1; }
+    .stars { display: flex; gap: 2px; margin-bottom: 4px; }
+    .star { color: #f5a623; font-size: 16px; }
+    .rating-count { font-size: 12px; color: var(--muted); }
+    .rating-bars { margin-top: 12px; display: grid; gap: 6px; }
+    .rbar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+    .rbar-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .rbar-fill { height: 100%; background: #f5a623; border-radius: 3px; }
+
+    .ov-section-title {
+      font-size: 13px; font-weight: 760; color: var(--fg);
+      padding: 16px 16px 8px; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .ov-row {
+      display: flex; align-items: center;
+      padding: 13px 16px; background: white;
+      border-bottom: 1px solid var(--border); gap: 12px;
+      text-decoration: none; color: var(--fg);
+    }
+    .ov-row:first-of-type { border-top: 1px solid var(--border); }
+    .ov-row:active { background: var(--tint); }
+    .ov-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .ov-row-text { flex: 1; }
+    .ov-row-text b { font-size: 14px; font-weight: 650; display: block; }
+    .ov-row-text span { font-size: 12px; color: var(--muted); }
+    .ov-chev { color: var(--muted); }
+
+    .bio-card {
+      margin: 0 16px; background: white;
+      border-radius: 16px; border: 1px solid var(--border);
+      padding: 16px;
+    }
+    .bio-card h3 { font-size: 13px; font-weight: 760; margin-bottom: 8px; }
+    .bio-card p { font-size: 13px; line-height: 1.65; color: oklch(32% 0.03 246); }
+
+    /* ── Edit tab ───────────────────────────────────────── */
+    .fl-group {
+      position: relative; margin: 0 16px 12px;
+    }
+    .fl-group label {
+      position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
+      font-size: 14px; color: var(--muted);
+      pointer-events: none; transition: .15s;
+    }
+    .fl-group input, .fl-group select, .fl-group textarea {
+      width: 100%; padding: 20px 12px 8px;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: white; font-size: 14px; color: var(--fg);
+      outline: none; transition: border-color .15s;
+    }
+    .fl-group textarea { padding-top: 22px; resize: none; min-height: 80px; }
+    .fl-group input:focus, .fl-group select:focus, .fl-group textarea:focus {
+      border-color: var(--accent);
+    }
+    .fl-group.filled label, .fl-group input:focus ~ label,
+    .fl-group select:focus ~ label {
+      top: 9px; transform: none; font-size: 10px; font-weight: 700;
+      color: var(--accent); letter-spacing: .04em; text-transform: uppercase;
+    }
+    .fl-group .field-badge {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      padding: 3px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 700;
+    }
+    .edit-section-label {
+      font-size: 11px; font-weight: 760; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 20px 16px 10px;
+    }
+
+    /* bio editor */
+    .bio-editor-wrap {
+      margin: 0 16px 12px;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      overflow: hidden; background: white;
+    }
+    .bio-editor-wrap:focus-within { border-color: var(--accent); }
+    .bio-editor-label {
+      font-size: 10px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 10px 12px 4px;
+    }
+    .bio-toolbar {
+      display: flex; gap: 4px; padding: 6px 10px;
+      border-bottom: 1px solid var(--border); background: oklch(98.5% 0.01 240);
+    }
+    .bio-btn {
+      width: 28px; height: 28px; border-radius: 6px;
+      border: 1px solid var(--border); background: white;
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      display: grid; place-items: center;
+    }
+    .bio-btn:active { background: var(--primary-soft); color: var(--accent); }
+    .bio-area { padding: 10px 12px; min-height: 120px; font-size: 13px; line-height: 1.7; outline: none; }
+
+    /* bank card */
+    .bank-card {
+      margin: 0 16px 12px;
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(28% 0.1 240) 100%);
+      border-radius: 18px; padding: 20px 18px;
+      position: relative; overflow: hidden;
+    }
+    .bank-card::before {
+      content: ''; position: absolute;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: oklch(100% 0 0 / .06);
+      top: -30px; right: -20px;
+    }
+    .bank-card::after {
+      content: ''; position: absolute;
+      width: 80px; height: 80px; border-radius: 50%;
+      background: oklch(100% 0 0 / .05);
+      bottom: -20px; left: 40px;
+    }
+    .bank-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .bank-logo-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: oklch(100% 0 0 / .15); border: 1px solid oklch(100% 0 0 / .2);
+      display: grid; place-items: center; color: white;
+    }
+    .bank-logo span { font-size: 13px; font-weight: 700; color: white; }
+    .bank-acct-num {
+      font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+      color: oklch(100% 0 0 / .9); letter-spacing: .18em; margin-bottom: 14px;
+    }
+    .bank-card-row { display: flex; justify-content: space-between; }
+    .bank-card-field label { font-size: 9px; color: oklch(100% 0 0 / .5); text-transform: uppercase; letter-spacing: .06em; }
+    .bank-card-field p { font-size: 13px; font-weight: 700; color: white; margin-top: 2px; }
+    .bank-pending-badge {
+      position: absolute; top: 16px; right: 16px;
+      padding: 4px 10px; border-radius: 12px;
+      background: oklch(72% 0.145 82 / .25); border: 1px solid oklch(72% 0.145 82 / .5);
+      font-size: 10px; font-weight: 700; color: var(--warning);
+    }
+
+    /* doc upload */
+    .upload-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; background: white;
+      border-bottom: 1px solid var(--border);
+    }
+    .upload-row:first-of-type { border-radius: 14px 14px 0 0; border-top: 1px solid var(--border); }
+    .upload-row:last-of-type { border-radius: 0 0 14px 14px; border-bottom: none; margin-bottom: 12px; }
+    .upload-icon-wrap {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .upload-row-text { flex: 1; }
+    .upload-row-text b { font-size: 13px; font-weight: 700; display: block; }
+    .upload-row-text span { font-size: 11px; color: var(--muted); }
+    .doc-status {
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .doc-status.verified { background: oklch(95% 0.06 150); color: var(--success); }
+    .doc-status.pending  { background: oklch(96% 0.05 82);  color: var(--warning); }
+    .doc-status.rejected { background: oklch(96% 0.05 28);  color: var(--danger); }
+    .doc-status.upload   { background: var(--primary-soft); color: var(--accent); }
+
+    /* ID card upload zone */
+    .id-upload-zone {
+      margin: 4px 16px 14px;
+      border: 2px dashed var(--border); border-radius: 14px;
+      padding: 22px; text-align: center;
+      background: white; cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .id-upload-zone:active { border-color: var(--accent); background: var(--primary-soft); }
+    .id-upload-zone svg { color: var(--muted); margin-bottom: 8px; }
+    .id-upload-zone p { font-size: 13px; font-weight: 600; color: var(--accent); }
+    .id-upload-zone span { font-size: 11px; color: var(--muted); }
+
+    /* ── More tab ───────────────────────────────────────── */
+    .more-hero {
+      margin: 12px 16px 0;
+      background: linear-gradient(135deg, var(--nav) 0%, oklch(26% 0.09 240) 100%);
+      border-radius: 18px; padding: 18px 16px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .more-hero-av {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 2.5px solid oklch(100% 0 0 / .3);
+      background: url('../assets/avatar-doctor.svg') center / cover no-repeat;
+      flex-shrink: 0;
+    }
+    .more-hero-info h3 { font-size: 16px; font-weight: 800; color: white; }
+    .more-hero-info p { font-size: 12px; color: oklch(100% 0 0 / .65); margin-top: 2px; }
+    .more-hero-info .sub-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: oklch(100% 0 0 / .12); border: 1px solid oklch(100% 0 0 / .2);
+      border-radius: 12px; padding: 3px 10px; margin-top: 6px;
+    }
+    .more-hero-info .sub-pill span { font-size: 10px; font-weight: 700; color: #f5c842; }
+
+    .more-group { margin: 14px 16px 0; }
+    .more-group-label {
+      font-size: 10px; font-weight: 760; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 6px; padding-left: 4px;
+    }
+    .more-group-card {
+      background: white; border-radius: 16px; border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .more-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+      text-decoration: none; color: var(--fg); cursor: pointer;
+    }
+    .more-item:last-child { border-bottom: none; }
+    .more-item:active { background: var(--tint); }
+    .more-item-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .more-item-text { flex: 1; }
+    .more-item-text b { font-size: 14px; font-weight: 650; display: block; line-height: 1.2; }
+    .more-item-text span { font-size: 11px; color: var(--muted); }
+    .more-item-right { display: flex; align-items: center; gap: 6px; }
+
+    .logout-btn {
+      margin: 14px 16px;
+      width: calc(100% - 32px);
+      padding: 14px;
+      border-radius: 14px;
+      background: oklch(96% 0.04 28);
+      border: 1.5px solid oklch(88% 0.08 28);
+      color: var(--danger); font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .logout-btn:active { background: oklch(92% 0.06 28); }
+
+    /* ── Save bar ───────────────────────────────────────── */
+    .save-bar {
+      position: fixed; bottom: 60px; left: 0; right: 0;
+      padding: 10px 16px;
+      background: white; border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px oklch(31% 0.08 238 / .08);
+      display: none; z-index: 20;
+    }
+    .save-bar.visible { display: block; }
+    .save-bar button { width: 100%; }
+
+    /* ── Misc ───────────────────────────────────────────── */
+    .section-divider { height: 8px; background: var(--bg); }
+    .chip.xs { font-size: 10px; padding: 3px 8px; }
+
+    /* Animate tab switch */
+    .tab-panel { animation: fadeUp .18s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <div class="hero">
+      <div class="hero-cover"></div>
+      <div class="hero-top-bar">
+        <button class="hero-back" onclick="history.back()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="hero-actions">
+          <button class="hero-action-btn" onclick="App.toast('Profile link copied')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share
+          </button>
+          <a class="hero-action-btn" href="settings.html">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-body">
+        <div class="hero-avatar-row">
+          <div class="hero-avatar">
+            <button class="avatar-edit" aria-label="Change photo">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </button>
+          </div>
+          <div class="hero-name">
+            <h2>Dr. Himanshu Haldar</h2>
+            <p>MPT Sports &amp; Orthopedics · 8 yrs exp</p>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="h-stat">
+            <div class="h-stat-val">4.9</div>
+            <div class="h-stat-lbl">Rating</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-val">312</div>
+            <div class="h-stat-lbl">Patients</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-val">1.2k</div>
+            <div class="h-stat-lbl">Sessions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TABS ─────────────────────────────────────────── -->
+    <div class="profile-tabs" id="profileTabs">
+      <button class="ptab active" data-tab="overview">Overview</button>
+      <button class="ptab" data-tab="edit">Edit</button>
+      <button class="ptab" data-tab="docs">Docs</button>
+      <button class="ptab" data-tab="more">More</button>
+    </div>
+
+    <main>
+
+      <!-- ════════════════════════════════════════════════
+           TAB: OVERVIEW
+           ════════════════════════════════════════════════ -->
+      <div class="tab-panel active" id="tab-overview">
+
+        <!-- Public profile live badge -->
+        <div class="public-badge">
+          <div class="dot"></div>
+          <span>Public profile is live</span>
+          <a href="#">Preview →</a>
+        </div>
+
+        <!-- Specializations -->
+        <div class="ov-section-title" style="padding-top:14px">Specializations</div>
+        <div class="spec-row">
+          <span class="spec-chip">Sports Injury</span>
+          <span class="spec-chip">Post-Surgery Rehab</span>
+          <span class="spec-chip">Back Pain</span>
+          <span class="spec-chip">Neck Pain</span>
+          <span class="spec-chip">Orthopedics</span>
+          <span class="spec-chip">Geriatric</span>
+        </div>
+
+        <!-- Bio -->
+        <div class="ov-section-title">About</div>
+        <div class="bio-card">
+          <p><strong>Dr. Himanshu Haldar (PT)</strong> is a dedicated sports and orthopedic physiotherapist with over 8 years of experience managing athletic injuries, musculoskeletal conditions, and post-surgical rehabilitation. He combines sports performance rehab with orthopedic recovery to help patients and athletes return to peak functional levels.</p>
+        </div>
+
+        <!-- Rating card -->
+        <div class="ov-section-title">Patient Reviews</div>
+        <div class="rating-card" style="margin: 0 16px">
+          <div class="rating-top">
+            <div class="rating-big">4.9</div>
+            <div>
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <div class="rating-count">Based on 87 reviews</div>
+            </div>
+          </div>
+          <div class="rating-bars">
+            <div class="rbar-row"><span>5</span><div class="rbar-track"><div class="rbar-fill" style="width:82%"></div></div><span>71</span></div>
+            <div class="rbar-row"><span>4</span><div class="rbar-track"><div class="rbar-fill" style="width:12%"></div></div><span>10</span></div>
+            <div class="rbar-row"><span>3</span><div class="rbar-track"><div class="rbar-fill" style="width:5%"></div></div><span>4</span></div>
+            <div class="rbar-row"><span>2</span><div class="rbar-track"><div class="rbar-fill" style="width:2%"></div></div><span>2</span></div>
+            <div class="rbar-row"><span>1</span><div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div><span>0</span></div>
+          </div>
+        </div>
+
+        <!-- Quick nav -->
+        <div class="ov-section-title">Manage</div>
+        <a class="ov-row" href="clinic.html">
+          <div class="ov-icon" style="background:oklch(94% 0.04 220)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(50% 0.12 220)" stroke-width="2" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="ov-row-text"><b>Clinic Showcase</b><span>Photos, timings &amp; facilities</span></div>
+          <svg class="ov-chev" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <a class="ov-row" href="articles.html">
+          <div class="ov-icon" style="background:oklch(94% 0.04 170)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(46% 0.12 170)" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="ov-row-text"><b>FAQs &amp; Articles</b><span>3 published · 1 draft</span></div>
+          <svg class="ov-chev" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <a class="ov-row" href="availability.html">
+          <div class="ov-icon" style="background:oklch(94% 0.05 60)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(52% 0.14 60)" stroke-width="2" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="ov-row-text"><b>Availability</b><span>Mon–Sat · 9am–6pm</span></div>
+          <svg class="ov-chev" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+        <a class="ov-row" href="verification.html" style="margin-bottom:0">
+          <div class="ov-icon" style="background:oklch(95% 0.05 28)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(55% 0.16 28)" stroke-width="2" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="ov-row-text"><b>Verification</b><span>2 documents pending</span></div>
+          <span class="chip pending xs">2 pending</span>
+        </a>
+
+        <div style="height:20px"></div>
+      </div><!-- /overview -->
+
+
+      <!-- ════════════════════════════════════════════════
+           TAB: EDIT
+           ════════════════════════════════════════════════ -->
+      <div class="tab-panel" id="tab-edit">
+
+        <div class="edit-section-label">Personal Details</div>
+
+        <div class="fl-group filled">
+          <input id="f-name" value="Dr. Himanshu Haldar (PT)" oninput="showSaveBar()" />
+          <label for="f-name">Full Name</label>
+        </div>
+        <div class="fl-group filled" style="position:relative">
+          <input id="f-email" value="himansh.0197@gmail.com" oninput="showSaveBar()" />
+          <label for="f-email">Email Address</label>
+          <span class="field-badge chip active" style="top:50%;right:10px;transform:translateY(-50%);font-size:10px">✓ Verified</span>
+        </div>
+        <div class="fl-group filled">
+          <input id="f-phone" value="+91 62001 03129" oninput="showSaveBar()" />
+          <label for="f-phone">Phone Number</label>
+        </div>
+        <div class="fl-group filled">
+          <input id="f-phone2" value="+91 62001 03129" oninput="showSaveBar()" />
+          <label for="f-phone2">Alternate Phone</label>
+        </div>
+        <div class="fl-group filled">
+          <input id="f-exp" value="8 years" oninput="showSaveBar()" />
+          <label for="f-exp">Years of Experience</label>
+        </div>
+        <div class="fl-group filled">
+          <input id="f-qual" value="MPT – Sports &amp; Orthopedic Physiotherapy" oninput="showSaveBar()" />
+          <label for="f-qual">Qualification</label>
+        </div>
+
+        <!-- Bio editor -->
+        <div class="edit-section-label" style="padding-top:6px">About / Bio</div>
+        <div class="bio-editor-wrap">
+          <div class="bio-editor-label">About</div>
+          <div class="bio-toolbar">
+            <button class="bio-btn" onclick="document.execCommand('bold')"><b>B</b></button>
+            <button class="bio-btn" onclick="document.execCommand('italic')"><i>I</i></button>
+            <button class="bio-btn" onclick="document.execCommand('underline')"><u>U</u></button>
+            <button class="bio-btn" onclick="document.execCommand('insertOrderedList')">1.</button>
+            <button class="bio-btn" onclick="document.execCommand('insertUnorderedList')">•</button>
+          </div>
+          <div class="bio-area" contenteditable="true" oninput="showSaveBar()">
+            <p><strong>Dr. Himanshu Haldar (PT)</strong> is a dedicated sports and orthopedic physiotherapist with over 8 years of experience in managing athletic injuries, musculoskeletal conditions, and post-surgical rehabilitation. His expertise lies in combining sports performance rehab with orthopedic recovery.</p>
+            <p><strong>Areas of Expertise</strong></p>
+            <ol style="margin:4px 0 0 18px;line-height:1.8">
+              <li>Sports Injury Management (ACL, hamstring, ankle sprains)</li>
+              <li>Post-Surgery Rehab (Knee/Hip replacement, spinal)</li>
+              <li>Arthritis &amp; Joint Pain Management</li>
+              <li>Post-Fracture Rehab</li>
+              <li>Ergonomic &amp; Postural Corrections</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Bank / Account -->
+        <div class="edit-section-label">Bank &amp; Payment</div>
+
+        <!-- Visual bank card -->
+        <div class="bank-card">
+          <div class="bank-logo">
+            <div class="bank-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" width="18" height="18"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <span>Bank Account</span>
+          </div>
+          <div class="bank-acct-num">•••• •••• •••• 4281</div>
+          <div class="bank-card-row">
+            <div class="bank-card-field"><label>Account Holder</label><p>Himanshu Haldar</p></div>
+            <div class="bank-card-field"><label>IFSC</label><p>SBIN0001234</p></div>
+          </div>
+          <div class="bank-pending-badge">⚠ Verification Pending</div>
+        </div>
+
+        <div class="fl-group filled" style="margin-top:12px">
+          <input id="f-holder" value="Himanshu Haldar" oninput="showSaveBar()" />
+          <label for="f-holder">Account Holder Name</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-bank" placeholder=" " oninput="showSaveBar()" />
+          <label for="f-bank">Bank Name</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-branch" placeholder=" " oninput="showSaveBar()" />
+          <label for="f-branch">Branch Name</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-acct" type="password" placeholder=" " oninput="showSaveBar()" />
+          <label for="f-acct">Account Number</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-ifsc" placeholder=" " value="SBIN0001234" oninput="showSaveBar()" />
+          <label for="f-ifsc">IFSC Code</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-upi" placeholder=" " oninput="showSaveBar()" />
+          <label for="f-upi">UPI ID</label>
+        </div>
+
+        <!-- Government ID -->
+        <div class="edit-section-label">Government ID Proof</div>
+
+        <div class="fl-group filled" style="margin-bottom:8px">
+          <select id="f-idtype" oninput="showSaveBar()">
+            <option selected>Aadhaar Card</option>
+            <option>PAN Card</option>
+            <option>Voter ID</option>
+            <option>Driving Licence</option>
+            <option>Passport</option>
+          </select>
+          <label for="f-idtype">ID Type</label>
+        </div>
+        <div class="fl-group">
+          <input id="f-idnum" placeholder=" " oninput="showSaveBar()" />
+          <label for="f-idnum">ID Number</label>
+        </div>
+
+        <div class="id-upload-zone" onclick="App.toast('File picker opened')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p>Tap to upload ID</p>
+          <span>PNG, JPG or PDF · Max 5 MB</span>
+        </div>
+
+        <div style="padding:0 16px 14px">
+          <button class="btn" style="width:100%;background:var(--danger)" data-toast="ID proof submitted for verification">Submit ID Proof</button>
+        </div>
+
+        <div style="height:20px"></div>
+      </div><!-- /edit -->
+
+
+      <!-- ════════════════════════════════════════════════
+           TAB: DOCS
+           ════════════════════════════════════════════════ -->
+      <div class="tab-panel" id="tab-docs">
+
+        <div class="edit-section-label">Qualification Documents</div>
+
+        <div style="margin: 0 16px">
+          <div class="upload-row">
+            <div class="upload-icon-wrap" style="background:oklch(94% 0.04 220)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(50% 0.12 220)" stroke-width="2" width="20" height="20"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <div class="upload-row-text">
+              <b>Degree Certificate</b>
+              <span>MPT from AIIMS Delhi · 2016</span>
+            </div>
+            <span class="doc-status verified">✓ Verified</span>
+          </div>
+          <div class="upload-row">
+            <div class="upload-icon-wrap" style="background:oklch(94% 0.04 220)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(50% 0.12 220)" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="upload-row-text">
+              <b>Registration Certificate</b>
+              <span>IAP Reg. No. PT-2016-04821</span>
+            </div>
+            <span class="doc-status verified">✓ Verified</span>
+          </div>
+          <div class="upload-row">
+            <div class="upload-icon-wrap" style="background:oklch(96% 0.05 82)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(52% 0.14 60)" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="upload-row-text">
+              <b>Profile Photo</b>
+              <span>Tap to replace · Last updated Jan 2025</span>
+            </div>
+            <span class="doc-status pending">Pending</span>
+          </div>
+          <div class="upload-row">
+            <div class="upload-icon-wrap" style="background:oklch(96% 0.05 28)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(55% 0.16 28)" stroke-width="2" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="upload-row-text">
+              <b>Identity Proof</b>
+              <span style="color:var(--danger);font-weight:600">Rejected — blur/illegible</span>
+            </div>
+            <span class="doc-status rejected">Re-upload</span>
+          </div>
+        </div>
+
+        <!-- Rejected doc re-upload zone -->
+        <div class="edit-section-label" style="padding-top:18px">Re-upload Identity Proof</div>
+        <div style="margin:0 16px;background:oklch(96% 0.05 28);border:1.5px solid oklch(88% 0.08 28);border-radius:14px;padding:12px 14px;margin-bottom:12px">
+          <p style="font-size:12px;color:var(--danger);font-weight:600;margin-bottom:4px">⚠ Rejection reason</p>
+          <p style="font-size:13px;color:oklch(35% 0.08 28)">The uploaded image was blurry or illegible. Please upload a clear, well-lit photo of your Aadhaar card (front &amp; back).</p>
+        </div>
+        <div class="id-upload-zone" onclick="App.toast('File picker opened')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p>Upload clear Aadhaar photo</p>
+          <span>PNG or JPG · Max 5 MB</span>
+        </div>
+        <div style="padding: 4px 16px 14px">
+          <button class="btn" style="width:100%" data-toast="Document re-submitted for review">Re-submit for Review</button>
+        </div>
+
+        <div class="edit-section-label">Clinic Photos</div>
+        <div style="margin: 0 16px">
+          <div class="upload-row" style="border-radius:14px 14px 0 0">
+            <div class="upload-icon-wrap" style="background:var(--primary-soft)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="upload-row-text"><b>Clinic Interior</b><span>4 photos uploaded</span></div>
+            <span class="doc-status verified">✓ Verified</span>
+          </div>
+          <div class="upload-row" style="border-radius:0 0 14px 14px">
+            <div class="upload-icon-wrap" style="background:var(--primary-soft)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="upload-row-text"><b>Equipment Photos</b><span>Not uploaded</span></div>
+            <span class="doc-status upload">+ Upload</span>
+          </div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div><!-- /docs -->
+
+
+      <!-- ════════════════════════════════════════════════
+           TAB: MORE
+           ════════════════════════════════════════════════ -->
+      <div class="tab-panel" id="tab-more">
+
+        <!-- Compact profile card -->
+        <div class="more-hero">
+          <div class="more-hero-av"></div>
+          <div class="more-hero-info">
+            <h3>Dr. Himanshu Haldar</h3>
+            <p>Sports &amp; Orthopedics · 8 yrs</p>
+            <div class="sub-pill">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#f5c842" viewBox="0 0 24 24" width="12" height="12"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span>Premium Plan · 378 days</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="more-group">
+          <div class="more-group-label">Practice</div>
+          <div class="more-group-card">
+            <a class="more-item" href="clinic.html">
+              <div class="more-item-icon" style="background:oklch(94% 0.04 220)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(50% 0.12 220)" stroke-width="2" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="more-item-text"><b>Clinic Showcase</b><span>Edit clinic details &amp; photos</span></div>
+              <div class="more-item-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>
+            </a>
+            <a class="more-item" href="availability.html">
+              <div class="more-item-icon" style="background:oklch(94% 0.05 60)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(52% 0.14 60)" stroke-width="2" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="more-item-text"><b>Availability</b><span>Set working hours &amp; slots</span></div>
+              <div class="more-item-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>
+            </a>
+            <a class="more-item" href="articles.html">
+              <div class="more-item-icon" style="background:oklch(94% 0.04 170)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(46% 0.12 170)" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="more-item-text"><b>FAQs &amp; Articles</b><span>3 published · 1 draft</span></div>
+              <div class="more-item-right">
+                <span class="chip info xs">New</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="more-group">
+          <div class="more-group-label">Account</div>
+          <div class="more-group-card">
+            <a class="more-item" href="subscription.html">
+              <div class="more-item-icon" style="background:oklch(95% 0.06 60)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(55% 0.16 60)" stroke-width="2" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="more-item-text"><b>Subscription</b><span>Premium Plan · 378 days left</span></div>
+              <div class="more-item-right">
+                <span class="chip active xs">Active</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </a>
+            <a class="more-item" href="verification.html">
+              <div class="more-item-icon" style="background:oklch(95% 0.05 28)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(55% 0.16 28)" stroke-width="2" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="more-item-text"><b>Verification</b><span>Complete your profile</span></div>
+              <div class="more-item-right">
+                <span class="chip pending xs">2 left</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </a>
+            <a class="more-item" href="settings.html">
+              <div class="more-item-icon" style="background:var(--tint)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+              <div class="more-item-text"><b>Settings</b><span>Security, language, privacy</span></div>
+              <div class="more-item-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="more-group">
+          <div class="more-group-label">Support</div>
+          <div class="more-group-card">
+            <a class="more-item" href="help.html">
+              <div class="more-item-icon" style="background:oklch(94% 0.04 220)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="oklch(50% 0.12 220)" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="more-item-text"><b>Help &amp; Support</b><span>FAQs, raise ticket, call support</span></div>
+              <div class="more-item-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>
+            </a>
+            <div class="more-item" onclick="App.toast('App version 2.4.1 (build 401)')">
+              <div class="more-item-icon" style="background:var(--tint)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="more-item-text"><b>About</b><span>Version 2.4.1</span></div>
+              <div class="more-item-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout -->
+        <button class="logout-btn" onclick="showLogoutSheet()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log Out
+        </button>
+
+        <div style="height:20px"></div>
+      </div><!-- /more -->
+
+    </main>
+
+    <!-- ── Save bar (edit tab) ───────────────────────────── -->
+    <div class="save-bar" id="saveBar">
+      <button class="btn" style="width:100%" onclick="saveChanges()">Save Changes</button>
+    </div>
+
+    <!-- ── Logout bottom sheet ──────────────────────────── -->
+    <div id="logoutSheet" style="
+      display:none;position:fixed;inset:0;z-index:100;
+      background:oklch(0% 0 0 / .45);
+      align-items:flex-end;
+    " onclick="if(event.target===this)closeLogoutSheet()">
+      <div style="
+        background:white;border-radius:24px 24px 0 0;
+        padding:24px 20px 36px;width:100%;
+      ">
+        <div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;"></div>
+        <h3 style="font-size:17px;margin-bottom:6px">Log out?</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px">You'll need to log back in with your phone number and OTP.</p>
+        <button class="btn" style="width:100%;background:var(--danger);margin-bottom:10px" onclick="window.location='../screens/login.html'">Yes, Log Out</button>
+        <button class="btn ghost" style="width:100%" onclick="closeLogoutSheet()">Cancel</button>
+      </div>
+    </div>
+
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({ active: 'profile' });
+
+    // ── Tabs ─────────────────────────────────────────────
+    document.getElementById('profileTabs').addEventListener('click', function(e) {
+      var btn = e.target.closest('.ptab');
+      if (!btn) return;
+      var id = btn.dataset.tab;
+      document.querySelectorAll('.ptab').forEach(function(t) { t.classList.toggle('active', t === btn); });
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'tab-' + id); });
+      // Hide save bar when leaving edit tab
+      if (id !== 'edit') document.getElementById('saveBar').classList.remove('visible');
+    });
+
+    // ── Floating label filled state ───────────────────────
+    document.querySelectorAll('.fl-group input, .fl-group select, .fl-group textarea').forEach(function(el) {
+      function check() { el.closest('.fl-group').classList.toggle('filled', el.value.trim() !== ''); }
+      el.addEventListener('input', check);
+      check();
+    });
+
+    // ── Save bar ─────────────────────────────────────────
+    function showSaveBar() { document.getElementById('saveBar').classList.add('visible'); }
+    function saveChanges() {
+      document.getElementById('saveBar').classList.remove('visible');
+      App.toast('Profile updated successfully ✓');
+    }
+
+    // ── Logout sheet ─────────────────────────────────────
+    function showLogoutSheet() {
+      var s = document.getElementById('logoutSheet');
+      s.style.display = 'flex';
+    }
+    function closeLogoutSheet() {
+      document.getElementById('logoutSheet').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

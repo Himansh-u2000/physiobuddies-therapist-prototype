@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Session Complete — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .success-page {
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .success-top {
+      background: linear-gradient(160deg, var(--nav) 0%, oklch(38% 0.09 200) 100%);
+      padding: 48px 24px 60px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-top::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('../assets/collage.svg') center/cover;
+      opacity: .06;
+    }
+    .success-checkmark {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.3);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes popIn { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .success-checkmark svg { width: 36px; height: 36px; }
+    .success-top h1 {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .success-top p {
+      font-size: 13px;
+      opacity: .75;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Summary card — floats up from green section */
+    .summary-card {
+      margin: -28px 16px 0;
+      position: relative;
+      z-index: 10;
+      background: var(--surface-strong);
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .patient-avatar-lg {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+    .summary-header-info h3 { font-size: 15px; font-weight: 800; }
+    .summary-header-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row .sr-label { font-size: 12px; color: var(--muted); }
+    .summary-row .sr-val { font-size: 13px; font-weight: 700; }
+
+    .payout-highlight {
+      margin: 14px 16px;
+      background: linear-gradient(135deg, oklch(36% 0.09 150) 0%, oklch(44% 0.11 160) 100%);
+      border-radius: 16px;
+      padding: 16px 18px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .payout-highlight .ph-label { font-size: 12px; opacity: .75; margin-bottom: 4px; }
+    .payout-highlight .ph-amount { font-size: 26px; font-weight: 900; font-family: var(--font-mono); }
+    .payout-highlight .ph-right { font-size: 28px; }
+
+    /* Milestones */
+    .milestone-section {
+      margin: 0 16px 14px;
+      background: var(--surface-strong);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+    .milestone-header { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .milestone-header h3 { font-size: 13px; font-weight: 800; }
+    .milestone-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .milestone-item:last-child { border-bottom: none; }
+    .milestone-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--success);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: #fff;
+      font-size: 14px;
+    }
+    .milestone-item h4 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .milestone-item p { font-size: 12px; color: var(--muted); }
+
+    /* Next actions */
+    .next-actions {
+      padding: 0 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .next-actions h3 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <div class="success-page">
+
+      <!-- Success top -->
+      <div class="success-top">
+        <div class="success-checkmark">
+          <svg viewBox="0 0 36 36" fill="none"><path d="M8 18l7 7 13-13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h1>Session completed!</h1>
+        <p>Treatment record submitted. Patient history,<br>attachments, and payout are all updated.</p>
+      </div>
+
+      <!-- Summary card -->
+      <div class="summary-card">
+        <div class="summary-header">
+          <img class="patient-avatar-lg" src="../assets/avatar-amit.svg" alt="Amit Verma" />
+          <div class="summary-header-info">
+            <h3>Amit Verma</h3>
+            <p>Session #14 · Home visit · Bandra West</p>
+          </div>
+          <span class="chip active">Done</span>
+        </div>
+        <div class="summary-row">
+          <span class="sr-label">Date & time</span>
+          <span class="sr-val">Thu 4 Jun 2024 · 9:00 – 10:05 AM</span>
+        </div>
+        <div class="summary-row">
+          <span class="sr-label">Duration</span>
+          <span class="sr-val mono">65 min</span>
+        </div>
+        <div class="summary-row">
+          <span class="sr-label">Treatment</span>
+          <span class="sr-val">Lumbar assessment + manual therapy</span>
+        </div>
+        <div class="summary-row">
+          <span class="sr-label">Follow-up</span>
+          <span class="sr-val">8 Jun 2024 · Clinic visit</span>
+        </div>
+      </div>
+
+      <!-- Payout highlight -->
+      <div class="payout-highlight">
+        <div>
+          <div class="ph-label">Session payout queued</div>
+          <div class="ph-amount">₹1,200</div>
+        </div>
+        <div class="ph-right">💸</div>
+      </div>
+
+      <!-- Milestones -->
+      <div class="milestone-section">
+        <div class="milestone-header"><h3>Everything's taken care of</h3></div>
+        <div class="milestone-item">
+          <div class="milestone-icon">✓</div>
+          <div>
+            <h4>Patient record updated</h4>
+            <p>Treatment details, assessment notes, and prescribed exercises saved to Amit's history.</p>
+          </div>
+        </div>
+        <div class="milestone-item">
+          <div class="milestone-icon">✓</div>
+          <div>
+            <h4>Payout queued — ₹1,200</h4>
+            <p>Will be included in Monday's weekly settlement to HDFC ending 2041.</p>
+          </div>
+        </div>
+        <div class="milestone-item">
+          <div class="milestone-icon">✓</div>
+          <div>
+            <h4>Follow-up scheduled</h4>
+            <p>Reminder set for 8 June. Amit has been notified of the next appointment.</p>
+          </div>
+        </div>
+        <div class="milestone-item">
+          <div class="milestone-icon">✓</div>
+          <div>
+            <h4>Session photos uploaded</h4>
+            <p>2 assessment photos saved to the patient file.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next actions -->
+      <div class="next-actions">
+        <h3>What's next</h3>
+        <a class="btn secondary" href="patient-profile.html">View Amit's full profile</a>
+        <a class="btn secondary" href="appointments.html">Back to appointments</a>
+        <a class="btn" href="dashboard.html">Return to dashboard</a>
+      </div>
+
+    </div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: "appointments" });</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empty & Error States — Physiobuddies</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    .states-intro {
+      padding: 16px 16px 0;
+    }
+    .states-intro h1 { font-size: 20px; }
+    .states-intro p { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .state-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 20px 16px 8px;
+    }
+
+    /* Empty state card */
+    .empty-card {
+      margin: 0 16px 12px;
+      background: var(--surface-strong);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 28px 20px 24px;
+      text-align: center;
+    }
+    .empty-card .ec-icon {
+      width: 64px; height: 64px;
+      border-radius: 20px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+    }
+    .ec-blue   { background: oklch(94% 0.04 236); }
+    .ec-teal   { background: oklch(93% 0.05 190); }
+    .ec-green  { background: oklch(93% 0.04 150); }
+    .ec-orange { background: oklch(95% 0.04 60); }
+    .ec-purple { background: oklch(95% 0.04 265); }
+    .ec-slate  { background: oklch(94% 0.02 240); }
+    .empty-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .empty-card p { font-size: 13px; color: var(--muted); line-height: 1.5; max-width: 260px; margin: 0 auto 16px; }
+    .empty-card .ec-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+    /* Error / status cards */
+    .status-card {
+      margin: 0 16px 12px;
+      background: var(--surface-strong);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 16px;
+    }
+    .status-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .status-card-header .sc-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .status-card-header h3 { font-size: 14px; font-weight: 800; flex: 1; }
+    .status-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+    .status-card .sc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Loading skeleton */
+    .skeleton-card {
+      margin: 0 16px 12px;
+      background: var(--surface-strong);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 16px;
+    }
+    .sk-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .sk-circle { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; }
+    .sk-block { border-radius: 6px; }
+    .skeleton {
+      background: linear-gradient(90deg, oklch(93% 0.012 236) 25%, oklch(97% 0.008 236) 50%, oklch(93% 0.012 236) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .sk-text { height: 12px; border-radius: 6px; }
+    .sk-text.w-full { width: 100%; }
+    .sk-text.w-3q { width: 75%; }
+    .sk-text.w-half { width: 50%; }
+
+    /* Validation error example */
+    .form-example {
+      margin: 0 16px 12px;
+      background: var(--surface-strong);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 16px;
+    }
+    .form-example h4 { font-size: 13px; font-weight: 800; margin-bottom: 12px; }
+    .field-err { margin-bottom: 12px; }
+    .field-err label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; }
+    .field-err input {
+      width: 100%;
+      border: 1.5px solid oklch(72% 0.14 28);
+      background: oklch(98% 0.02 28);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--fg);
+      outline: none;
+    }
+    .field-err .err-msg { font-size: 11px; color: oklch(44% 0.14 28); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
+    .field-ok input {
+      width: 100%;
+      border: 1.5px solid var(--success);
+      background: oklch(97% 0.03 150);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--fg);
+      outline: none;
+    }
+    .field-ok .ok-msg { font-size: 11px; color: var(--success); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen" style="padding:0; padding-bottom:90px">
+
+      <div class="states-intro">
+        <h1>Empty & error states</h1>
+        <p>Edge case states across the Physiobuddies Therapist app</p>
+      </div>
+
+      <!-- Empty states -->
+      <div class="state-group-label">Empty states — No data</div>
+
+      <!-- No appointments -->
+      <div class="empty-card">
+        <div class="ec-icon ec-blue">📅</div>
+        <h3>No appointments today</h3>
+        <p>You don't have any sessions scheduled for today. Add your availability so patients can book a clinic, home, or online slot.</p>
+        <div class="ec-actions">
+          <a class="btn" href="availability.html">Add availability</a>
+          <button class="btn secondary" data-toast="Sharing profile link">Share profile</button>
+        </div>
+      </div>
+
+      <!-- No patients -->
+      <div class="empty-card">
+        <div class="ec-icon ec-teal">👥</div>
+        <h3>No patients yet</h3>
+        <p>Patient profiles appear automatically after your first confirmed appointment. Complete your verification to start accepting bookings.</p>
+        <div class="ec-actions">
+          <a class="btn" href="verification.html">Complete verification</a>
+        </div>
+      </div>
+
+      <!-- No earnings -->
+      <div class="empty-card">
+        <div class="ec-icon ec-green">💰</div>
+        <h3>No earnings yet</h3>
+        <p>Complete your first paid session to see payouts and transactions here. Earnings are settled every Monday.</p>
+        <div class="ec-actions">
+          <a class="btn" href="appointments.html">View appointments</a>
+        </div>
+      </div>
+
+      <!-- No articles -->
+      <div class="empty-card">
+        <div class="ec-icon ec-orange">✍️</div>
+        <h3>No articles published yet</h3>
+        <p>Share your knowledge with patients. Published articles appear on your public profile and build trust with new patients.</p>
+        <div class="ec-actions">
+          <a class="btn" href="articles.html">Write first article</a>
+        </div>
+      </div>
+
+      <!-- No notifications -->
+      <div class="empty-card">
+        <div class="ec-icon ec-slate">🔔</div>
+        <h3>All caught up!</h3>
+        <p>You have no new notifications. We'll notify you about appointments, payments, document updates, and patient messages.</p>
+      </div>
+
+      <!-- Error & system states -->
+      <div class="state-group-label">System states</div>
+
+      <!-- Offline -->
+      <div class="status-card">
+        <div class="status-card-header">
+          <div class="sc-icon" style="background:oklch(95%,0.04,28)">📡</div>
+          <h3>No internet connection</h3>
+          <span class="chip rejected">Offline</span>
+        </div>
+        <p>You're offline. Your treatment draft has been saved locally and will sync when your connection returns. Appointment details are still accessible.</p>
+        <div class="sc-actions">
+          <button class="btn secondary" data-toast="Checking connection…">Retry connection</button>
+          <button class="btn ghost" data-toast="Opening offline drafts">View offline drafts</button>
+        </div>
+      </div>
+
+      <!-- Location permission denied -->
+      <div class="status-card">
+        <div class="status-card-header">
+          <div class="sc-icon" style="background:oklch(95%,0.04,60)">📍</div>
+          <h3>Location access denied</h3>
+          <span class="chip pending">Permission</span>
+        </div>
+        <p>Enable location permission to see travel time to patients, open navigation, and verify your presence at home visit locations.</p>
+        <div class="sc-actions">
+          <button class="btn" data-toast="Opening app settings">Open app settings</button>
+        </div>
+      </div>
+
+      <!-- Camera permission denied -->
+      <div class="status-card">
+        <div class="status-card-header">
+          <div class="sc-icon" style="background:oklch(95%,0.04,265)">📷</div>
+          <h3>Camera access denied</h3>
+          <span class="chip pending">Permission</span>
+        </div>
+        <p>Camera permission is required to upload document scans, session photos, and profile pictures.</p>
+        <div class="sc-actions">
+          <button class="btn" data-toast="Opening app settings">Open app settings</button>
+        </div>
+      </div>
+
+      <!-- Server error -->
+      <div class="status-card">
+        <div class="status-card-header">
+          <div class="sc-icon" style="background:oklch(95%,0.04,28)">⚠️</div>
+          <h3>Something went wrong</h3>
+          <span class="chip rejected">Error</span>
+        </div>
+        <p>We couldn't load your appointments right now. This is usually temporary. Your data is safe.</p>
+        <div class="sc-actions">
+          <button class="btn" data-toast="Retrying…">Try again</button>
+          <button class="btn secondary" data-toast="Contacting support">Contact support</button>
+        </div>
+      </div>
+
+      <!-- Loading skeleton -->
+      <div class="state-group-label">Loading states</div>
+      <div class="skeleton-card">
+        <p class="subtle" style="margin-bottom:14px;font-size:11px">Appointment card skeleton</p>
+        <div class="sk-row">
+          <div class="sk-circle sk-block skeleton"></div>
+          <div style="flex:1">
+            <div class="sk-text w-3q skeleton" style="margin-bottom:7px"></div>
+            <div class="sk-text w-half skeleton"></div>
+          </div>
+          <div class="sk-block skeleton" style="width:60px;height:24px;border-radius:12px"></div>
+        </div>
+        <div class="sk-text w-full skeleton" style="margin-bottom:7px;height:10px"></div>
+        <div class="sk-text w-3q skeleton" style="height:10px"></div>
+      </div>
+
+      <!-- Form validation states -->
+      <div class="state-group-label">Form validation</div>
+      <div class="form-example">
+        <h4>OTP input — error &amp; success states</h4>
+        <div class="field-err">
+          <label>Phone number</label>
+          <input type="tel" value="9876" readonly />
+          <div class="err-msg">⚠ Phone number must be 10 digits</div>
+        </div>
+        <div class="field-ok">
+          <label>OTP</label>
+          <input type="text" value="● ● ● ● ● ●" readonly />
+          <div class="ok-msg">✓ OTP verified successfully</div>
+        </div>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init();</script>
+</body>
+</html>

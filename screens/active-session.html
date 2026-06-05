@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Active Session – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen no-tabs">
+
+      <div class="page-title" style="margin-bottom:8px">
+        <h1>Active session</h1>
+        <span class="chip active" style="animation:pulse-chip 2s ease-in-out infinite">● Running</span>
+      </div>
+
+      <!-- Timer + patient -->
+      <div class="card" style="padding:20px;text-align:center;background:linear-gradient(145deg,oklch(38% .09 236),oklch(44% .10 210));color:white;border:0;box-shadow:0 12px 32px oklch(35% .085 236 / .28)">
+        <div class="timer-ring running" id="session-timer" style="margin-bottom:14px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="oklch(72% .14 150)"/>
+                <stop offset="100%" stop-color="oklch(58% .145 150)"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="70" cy="70" r="60"/>
+            <circle class="ring-progress" id="ring-arc" cx="70" cy="70" r="60"/>
+          </svg>
+          <div class="ring-center">
+            <div>
+              <span id="timer-display">32:18</span>
+              <small>elapsed</small>
+            </div>
+          </div>
+        </div>
+        <h2 style="color:white;font-size:18px">Amit Verma</h2>
+        <p style="font-size:12px;color:rgba(255,255,255,.76);margin-top:4px">Lower back pain rehab · Home visit · Bandra West</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px">
+          <div style="background:oklch(100% 0 0 / .12);border-radius:10px;padding:8px 4px;text-align:center">
+            <strong style="display:block;color:white;font-size:13px">OTP</strong><span style="font-size:10px;color:rgba(255,255,255,.7)">Verified</span>
+          </div>
+          <div style="background:oklch(100% 0 0 / .22);border-radius:10px;padding:8px 4px;text-align:center;border:1px solid rgba(255,255,255,.28)">
+            <strong style="display:block;color:white;font-size:13px">Care</strong><span style="font-size:10px;color:rgba(255,255,255,.7)">Active</span>
+          </div>
+          <div style="background:oklch(100% 0 0 / .12);border-radius:10px;padding:8px 4px;text-align:center">
+            <strong style="display:block;color:white;font-size:13px">Photo</strong><span style="font-size:10px;color:rgba(255,255,255,.7)">1 needed</span>
+          </div>
+          <div style="background:oklch(100% 0 0 / .12);border-radius:10px;padding:8px 4px;text-align:center">
+            <strong style="display:block;color:white;font-size:13px">Note</strong><span style="font-size:10px;color:rgba(255,255,255,.7)">Draft</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exercise reference image -->
+      <div class="media-img img-session" style="min-height:130px;margin-top:10px;border-radius:14px;position:relative">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,oklch(14% .04 240 / .6));border-radius:14px"></div>
+        <div style="position:absolute;bottom:10px;left:12px;color:white">
+          <strong style="font-size:13px;display:block">Lower back therapy</strong>
+          <span style="font-size:11px;opacity:.8">Reference: L4-L5 disc mobilisation</span>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <section class="section">
+        <div class="module-title"><h2>Treatment checklist</h2><span class="chip pending" id="checklist-count">1/4 done</span></div>
+        <div class="check-list" id="checklist">
+          <label class="check-row done">
+            <div class="row start" style="gap:8px;flex:1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--success)" stroke-width="2" width="16" height="16"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+              <span>Assessment and pain mapping</span>
+            </div>
+            <input type="checkbox" checked />
+          </label>
+          <label class="check-row">
+            <div class="row start" style="gap:8px;flex:1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Manual therapy / manipulation</span>
+            </div>
+            <input type="checkbox" />
+          </label>
+          <label class="check-row">
+            <div class="row start" style="gap:8px;flex:1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Exercises explained to patient</span>
+            </div>
+            <input type="checkbox" />
+          </label>
+          <label class="check-row">
+            <div class="row start" style="gap:8px;flex:1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Session photo uploaded</span>
+            </div>
+            <input type="checkbox" />
+          </label>
+        </div>
+      </section>
+
+      <!-- Notes + upload -->
+      <section class="section">
+        <div class="field">
+          <label>Quick session note</label>
+          <textarea class="textarea" placeholder="L4-L5 mobilisation done. Pain scale improved 7→4. Patient responded well to traction…"></textarea>
+        </div>
+        <div class="grid-2">
+          <button class="btn secondary" data-toast="Camera opened for session photo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Upload photo
+          </button>
+          <a class="btn" href="treatment-form.html">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            End &amp; document
+          </a>
+        </div>
+        <button class="btn danger" data-open-sheet="pause-session">
+          Pause / Emergency stop
+        </button>
+      </section>
+
+      <div style="height:30px"></div>
+    </main>
+
+    <div class="sheet-backdrop" data-sheet-backdrop="pause-session"></div>
+    <div class="sheet" data-sheet="pause-session">
+      <div class="sheet-handle"></div>
+      <h2>Pause this session?</h2>
+      <p class="subtle">Use only for patient cancellation, safety concern, or emergency. The appointment will be flagged for support review. Session time is preserved.</p>
+      <button class="btn danger" data-complete-flow="Session paused — support notified" data-target="appointments.html">Pause session</button>
+      <button class="btn secondary" data-close-sheet>Continue treatment</button>
+    </div>
+
+  </div>
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({ active: 'appointments' });
+
+    // Live timer
+    let elapsed = 32*60+18;
+    const circumference = 2*Math.PI*60;
+    const arc = document.getElementById('ring-arc');
+    const display = document.getElementById('timer-display');
+
+    function updateTimer() {
+      elapsed++;
+      const mins = Math.floor(elapsed/60);
+      const secs = elapsed%60;
+      display.textContent = String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0');
+      const progress = Math.min(elapsed/2700, 1); // 45min session
+      arc.style.strokeDashoffset = circumference*(1-progress);
+    }
+    arc.style.strokeDasharray = circumference;
+    arc.style.strokeDashoffset = circumference*0.28;
+    setInterval(updateTimer, 1000);
+
+    // Checklist count
+    const checkboxes = document.querySelectorAll('#checklist input[type=checkbox]');
+    const countEl = document.getElementById('checklist-count');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        const done = Array.from(checkboxes).filter(c=>c.checked).length;
+        countEl.textContent = done+'/'+checkboxes.length+' done';
+        countEl.className = done===checkboxes.length ? 'chip active' : 'chip pending';
+        cb.closest('.check-row').classList.toggle('done', cb.checked);
+      });
+    });
+  </script>
+  <style>@keyframes pulse-chip { 0%,100%{opacity:1}50%{opacity:.6} }</style>
+</body>
+</html>

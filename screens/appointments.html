@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointments – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div data-header></div>
+    <main class="screen">
+
+      <div class="page-title">
+        <h1>Appointments</h1>
+        <a class="icon-btn" href="notifications.html" aria-label="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </a>
+      </div>
+
+      <div class="field">
+        <div style="position:relative">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="input" style="padding-left:38px" placeholder="Search patient, service, location" />
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:10px">
+        <button class="tab active" data-panel="today">Today</button>
+        <button class="tab" data-panel="upcoming">Upcoming</button>
+        <button class="tab" data-panel="completed">Completed</button>
+        <button class="tab" data-panel="cancelled">Cancelled</button>
+      </div>
+      <div class="tabs" style="margin-top:6px">
+        <button class="tab active">All</button>
+        <button class="tab">Clinic</button>
+        <button class="tab">Home visit</button>
+        <button class="tab">Online</button>
+      </div>
+
+      <!-- Today panel -->
+      <div class="panel active" data-panel-view="today">
+        <section class="section" style="margin-top:14px">
+          <!-- Amit - home visit -->
+          <a class="appointment-card home" href="appointment-detail.html">
+            <div class="appt-image">
+              <span class="type-badge chip info" style="font-size:10px">🏠 Home visit</span>
+            </div>
+            <div class="appt-body">
+              <div class="row start" style="gap:12px">
+                <div class="time-block">10:30<span>AM</span></div>
+                <div class="stack" style="flex:1;gap:5px">
+                  <div class="row">
+                    <div class="row start" style="gap:8px">
+                      <div class="avatar-sm av-amit" style="width:30px;height:30px;border-radius:8px"></div>
+                      <h3>Amit Verma <span class="subtle" style="font-weight:400">42M</span></h3>
+                    </div>
+                    <span class="chip active">Confirmed</span>
+                  </div>
+                  <p class="subtle">Lower back pain rehab · Rs 1,200</p>
+                  <p class="subtle">📍 Bandra West · 5.2 km</p>
+                </div>
+              </div>
+            </div>
+            <div class="appt-footer">
+              <span class="chip active" style="font-size:10px">Paid</span>
+              <span style="flex:1"></span>
+              <a class="btn small secondary" href="route.html">Navigate</a>
+              <a class="btn small" href="session-otp.html">Start session</a>
+            </div>
+          </a>
+
+          <!-- Neha - clinic -->
+          <a class="appointment-card clinic" href="appointment-detail.html">
+            <div class="appt-image">
+              <span class="type-badge chip neutral" style="font-size:10px">🏥 Clinic visit</span>
+            </div>
+            <div class="appt-body">
+              <div class="row start" style="gap:12px">
+                <div class="time-block">2:00<span>PM</span></div>
+                <div class="stack" style="flex:1;gap:5px">
+                  <div class="row">
+                    <div class="row start" style="gap:8px">
+                      <div class="avatar-sm av-neha" style="width:30px;height:30px;border-radius:8px"></div>
+                      <h3>Neha Kapoor <span class="subtle" style="font-weight:400">35F</span></h3>
+                    </div>
+                    <span class="chip pending">Unpaid</span>
+                  </div>
+                  <p class="subtle">Neck pain assessment · Rs 950</p>
+                  <p class="subtle">📍 Physiobuddies Clinic, Andheri</p>
+                </div>
+              </div>
+            </div>
+            <div class="appt-footer">
+              <span class="chip pending" style="font-size:10px">Pending payment</span>
+              <span style="flex:1"></span>
+              <a class="btn small" href="session-otp.html">Start session</a>
+            </div>
+          </a>
+
+          <!-- Rohan - online -->
+          <a class="appointment-card online" href="appointment-detail.html">
+            <div class="appt-image">
+              <span class="type-badge chip info" style="font-size:10px">💻 Online</span>
+            </div>
+            <div class="appt-body">
+              <div class="row start" style="gap:12px">
+                <div class="time-block">6:15<span>PM</span></div>
+                <div class="stack" style="flex:1;gap:5px">
+                  <div class="row">
+                    <div class="row start" style="gap:8px">
+                      <div class="avatar-sm av-rohan" style="width:30px;height:30px;border-radius:8px"></div>
+                      <h3>Rohan Mehta <span class="subtle" style="font-weight:400">28M</span></h3>
+                    </div>
+                    <span class="chip info">Online</span>
+                  </div>
+                  <p class="subtle">Sports injury follow-up · Rs 700</p>
+                  <p class="subtle">🎥 Video consultation</p>
+                </div>
+              </div>
+            </div>
+            <div class="appt-footer">
+              <span class="chip pending" style="font-size:10px">Payment pending</span>
+              <span style="flex:1"></span>
+              <button class="btn small secondary" data-toast="Video call link copied">Copy link</button>
+              <a class="btn small" href="session-otp.html">Join call</a>
+            </div>
+          </a>
+        </section>
+      </div>
+
+      <!-- Upcoming panel -->
+      <div class="panel" data-panel-view="upcoming">
+        <section class="section" style="margin-top:14px">
+          <a class="appointment-card home" href="appointment-detail.html">
+            <div class="appt-body">
+              <div class="row start" style="gap:12px">
+                <div class="time-block" style="text-align:center;padding-top:6px">
+                  <span style="font-size:11px;color:var(--muted);font-weight:700;display:block">Fri</span>
+                  <span style="font-size:16px;font-weight:850;color:var(--accent)">07</span>
+                  <span class="subtle">Jun</span>
+                </div>
+                <div class="stack" style="flex:1;gap:5px">
+                  <div class="row">
+                    <div class="row start" style="gap:8px">
+                      <div class="avatar-sm av-amit" style="width:30px;height:30px;border-radius:8px"></div>
+                      <h3>Amit Verma</h3>
+                    </div>
+                    <span class="chip info">Confirmed</span>
+                  </div>
+                  <p class="subtle">Back pain follow-up · 10:00 AM · Home visit</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </section>
+      </div>
+
+      <!-- Completed panel -->
+      <div class="panel" data-panel-view="completed">
+        <section class="section" style="margin-top:14px">
+          <div class="appointment-card clinic" style="opacity:.88">
+            <div class="appt-body">
+              <div class="row start" style="gap:12px">
+                <div class="time-block">8:30<span>AM</span></div>
+                <div class="stack" style="flex:1;gap:5px">
+                  <div class="row">
+                    <div class="row start" style="gap:8px">
+                      <div class="avatar-sm av-neha" style="width:30px;height:30px;border-radius:8px"></div>
+                      <h3>Neha Kapoor</h3>
+                    </div>
+                    <span class="chip active">Paid</span>
+                  </div>
+                  <p class="subtle">Cervical spondylosis session · Rs 950 · Clinic</p>
+                </div>
+              </div>
+            </div>
+            <div class="appt-footer">
+              <span class="chip active" style="font-size:10px">Session completed</span>
+              <span style="flex:1"></span>
+              <a class="btn small secondary" href="treatment-form.html">View notes</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Cancelled panel -->
+      <div class="panel" data-panel-view="cancelled">
+        <div class="empty">
+          <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" width="30" height="30"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <p><strong>No cancelled appointments</strong></p>
+          <p class="subtle">Cancelled sessions will appear here.</p>
+        </div>
+      </div>
+
+    </main>
+    <div data-tabs></div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>App.init({ active: 'appointments' });</script>
+</body>
+</html>

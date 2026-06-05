@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="collage-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7f1ff"/>
+      <stop offset="1" stop-color="#eaf6f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#collage-bg)"/>
+  <g stroke="#1f4ee0" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="60" y="60" width="220" height="120" rx="10"/>
+    <circle cx="120" cy="120" r="30" fill="#1f4ee0" opacity="0.15" stroke="#1f4ee0"/>
+    <line x1="160" y1="110" x2="240" y2="110"/>
+    <line x1="160" y1="130" x2="220" y2="130"/>
+    <line x1="160" y1="150" x2="230" y2="150"/>
+  </g>
+  <g stroke="#0f9b6c" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="320" y="60" width="220" height="120" rx="10"/>
+    <circle cx="380" cy="120" r="30" fill="#0f9b6c" opacity="0.15" stroke="#0f9b6c"/>
+    <path d="M440 105h60M440 125h40M440 145h50"/>
+  </g>
+  <g stroke="#c47a18" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="60" y="220" width="220" height="120" rx="10"/>
+    <rect x="100" y="250" width="60" height="60" rx="6" fill="#fef3d6" stroke="#c47a18"/>
+    <path d="M120 280l8 8 16-18" stroke="#0f9b6c" stroke-width="3"/>
+    <line x1="180" y1="260" x2="260" y2="260"/>
+    <line x1="180" y1="280" x2="240" y2="280"/>
+    <line x1="180" y1="300" x2="250" y2="300"/>
+  </g>
+  <g stroke="#5cb1ff" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="320" y="220" width="220" height="120" rx="10"/>
+    <circle cx="370" cy="280" r="20" fill="#e7f1ff" stroke="#5cb1ff"/>
+    <line x1="410" y1="270" x2="510" y2="270"/>
+    <line x1="410" y1="290" x2="490" y2="290"/>
+    <line x1="410" y1="310" x2="500" y2="310"/>
+  </g>
+</svg>

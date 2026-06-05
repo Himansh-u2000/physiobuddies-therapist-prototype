@@ -1,0 +1,26 @@
+{
+  "kind": "critique-panel",
+  "score": 4,
+  "axes": {
+    "clarity": {
+      "score": 4,
+      "notes": "The dashboard-first workflow is clear: availability, appointment detail, route, OTP, active session, treatment notes, documents, earnings, and profile content are reachable from product navigation."
+    },
+    "hierarchy": {
+      "score": 4,
+      "notes": "Primary CTAs are full-width and session-critical states are surfaced with concise cards and status chips."
+    },
+    "typography": {
+      "score": 4,
+      "notes": "System UI typography is readable on small screens with compact operational headings and tabular numeric treatments."
+    },
+    "motion": {
+      "score": 3,
+      "notes": "Interactions include sheets, toasts, OTP focus, tabs, and toggles. Motion is restrained and functional rather than expressive."
+    },
+    "brand": {
+      "score": 4,
+      "notes": "The palette remains anchored to the uploaded Physiobuddies references while cards, buttons, and accordions are modernized for mobile app use."
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="tools-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf6f0"/>
+      <stop offset="1" stop-color="#f7fbf9"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#tools-bg)"/>
+  <g transform="translate(120,120)" stroke="#0f9b6c" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="60" width="160" height="20" rx="10" fill="#0f9b6c"/>
+    <rect x="0" y="0" width="20" height="140" rx="6" fill="#0f9b6c"/>
+    <rect x="140" y="0" width="20" height="140" rx="6" fill="#0f9b6c"/>
+    <circle cx="80" cy="70" r="35" fill="#eaf6f0"/>
+    <path d="M65 70 L78 82 L98 60" stroke="#0f9b6c" stroke-width="3"/>
+  </g>
+  <g transform="translate(360,140)" stroke="#1f4ee0" stroke-width="2.5" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="40"/>
+    <path d="M50 30v40M30 50h40"/>
+  </g>
+  <g transform="translate(120,300)" stroke="#5cb1ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+    <line x1="0" y1="20" x2="360" y2="20"/>
+  </g>
+</svg>

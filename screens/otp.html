@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OTP Verification – Physiobuddies Therapist</title>
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body class="phone-screen">
+  <div class="auth-screen">
+    <div class="auth-hero" style="height:180px">
+      <div class="auth-hero-img"></div>
+      <div class="auth-hero-logo">
+        <img src="https://physiobuddies.in/assets/logo-CZkn2wwb.png" alt="Logo" class="logo-mark" style="width: auto; height: 100%; max-height: 48px; object-fit: contain; background: transparent; border-radius: 0;" />
+        <h1 style="font-size:18px;color:white;font-weight:800">Verify your number</h1>
+      </div>
+    </div>
+    <div class="auth-body">
+      <div>
+        <h2 style="font-size:20px">Enter OTP</h2>
+        <p class="subtle" style="margin-top:4px">6-digit code sent to <strong style="color:var(--fg)">+91 98765 43210</strong></p>
+        <a href="login.html" style="font-size:12px;color:var(--accent);font-weight:700;display:inline-block;margin-top:4px">Change number</a>
+      </div>
+      <div>
+        <div class="otp-row" id="otp-row">
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 1" />
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 2" />
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 3" />
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 4" />
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 5" />
+          <input class="otp-cell" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 6" />
+        </div>
+        <div id="otp-error" style="display:none;color:var(--danger);font-size:12px;font-weight:700;margin-top:8px">Incorrect OTP. Try again or resend.</div>
+      </div>
+      <button class="btn" id="verify-btn" data-otp-submit data-target="biometric-setup.html" data-success="OTP verified — welcome Dr. Riya!">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/></svg>
+        Verify OTP
+      </button>
+      <div style="text-align:center">
+        <p class="subtle" id="resend-msg">Resend OTP in <strong id="resend-timer" style="color:var(--accent)">30s</strong></p>
+        <button id="resend-btn" style="display:none;color:var(--accent);font-weight:750;font-size:14px;background:none;border:none;cursor:pointer;margin-top:4px" data-toast="OTP resent to +91 98765 43210">Resend OTP</button>
+      </div>
+      <p class="subtle" style="text-align:center;font-size:11px">Having trouble? <a href="help.html" style="color:var(--accent);font-weight:700">Contact support</a></p>
+    </div>
+  </div>
+  <script src="../js/app.js"></script>
+  <script>
+    App.init({});
+    // Resend timer
+    let t = 30;
+    const timerEl = document.getElementById('resend-timer');
+    const resendMsg = document.getElementById('resend-msg');
+    const resendBtn = document.getElementById('resend-btn');
+    const tick = setInterval(() => {
+      t--;
+      timerEl.textContent = t+'s';
+      if(t <= 0){
+        clearInterval(tick);
+        resendMsg.style.display='none';
+        resendBtn.style.display='block';
+      }
+    }, 1000);
+    resendBtn.addEventListener('click', () => {
+      App.toast('OTP resent to +91 98765 43210');
+      resendBtn.style.display='none';
+      resendMsg.style.display='block';
+      t=30; timerEl.textContent='30s';
+      const tick2 = setInterval(()=>{ t--; timerEl.textContent=t+'s'; if(t<=0){clearInterval(tick2);resendMsg.style.display='none';resendBtn.style.display='block';}},1000);
+    });
+    // OTP cell auto-advance and paste handling
+    const cells = Array.from(document.querySelectorAll('.otp-cell'));
+    cells.forEach((input, i) => {
+      input.addEventListener('input', (e) => {
+        // If user pastes multiple digits via autofill
+        if (e.target.value.length > 1) {
+          const pasted = e.target.value.replace(/\D/g, '').slice(0, cells.length);
+          cells.forEach((c, idx) => {
+            if (pasted[idx]) {
+              c.value = pasted[idx];
+              c.classList.add('filled');
+            }
+          });
+          cells[Math.min(pasted.length, cells.length - 1)].focus();
+          return;
+        }
+
+        input.value = input.value.replace(/\D/g,'').slice(0,1);
+        if(input.value) input.classList.add('filled');
+        else input.classList.remove('filled');
+        if(input.value && cells[i+1]) cells[i+1].focus();
+      });
+      input.addEventListener('keydown', e => {
+        if(e.key==='Backspace' && !input.value && cells[i-1]){ cells[i-1].focus(); cells[i-1].classList.remove('filled'); }
+      });
+      input.addEventListener('paste', e => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+        if (!pasted) return;
+        cells.forEach((c, idx) => {
+          if (pasted[idx]) {
+            c.value = pasted[idx];
+            c.classList.add('filled');
+          }
+        });
+        cells[Math.min(pasted.length, cells.length - 1)].focus();
+      });
+    });
+    document.getElementById('verify-btn').addEventListener('click', () => {
+      const code = cells.map(c=>c.value).join('');
+      const errEl = document.getElementById('otp-error');
+      if(code.length < 6){ errEl.style.display='block'; errEl.textContent='Enter all 6 digits to continue.'; return; }
+      // Accept 123456 as demo valid OTP
+      if(code !== '123456' && code.length === 6){
+        // Allow any 6-digit code for demo
+      }
+      errEl.style.display='none';
+      App.toast('OTP verified — welcome Dr. Riya!');
+      setTimeout(()=> window.location.href='biometric-setup.html', 600);
+    });
+    cells[0].focus();
+  </script>
+</body>
+</html>
