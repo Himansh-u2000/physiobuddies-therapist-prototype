@@ -115,22 +115,146 @@
           <p class="subtle" style="margin-top:8px" id="pain-desc">Current: 7/10 — Severe. Activities limited.</p>
         </div>
 
-        <!-- Section 4: Assessment + treatment -->
+        <!-- Section 4: Assessment + treatment (structured for ML) -->
         <div class="card flat" style="background:white;border:1px solid var(--border);padding:14px">
           <h3 style="margin-bottom:12px;color:var(--accent)">4 · Assessment &amp; Treatment</h3>
-          <div class="form-grid">
-            <div class="field">
-              <label>Assessment notes</label>
-              <textarea class="textarea" style="min-height:72px" placeholder="Postural assessment, ROM, special tests…">Forward flexion limited to 40°. SLR positive at 60° left. Moderate paraspinal spasm.</textarea>
+
+          <!-- 4a: Assessment findings -->
+          <div class="field" style="margin-bottom:14px">
+            <label style="margin-bottom:2px">Assessment findings</label>
+            <p class="subtle" style="font-size:11px;margin-bottom:8px">Tap a finding type, then fill in the details</p>
+            <div class="chip-group" id="assess-chips">
+              <button class="chip" data-type="rom">📐 ROM Limited</button>
+              <button class="chip" data-type="slr">🦵 SLR+</button>
+              <button class="chip" data-type="spasm">💪 Spasm</button>
+              <button class="chip" data-type="weakness">⚡ Weakness</button>
+              <button class="chip" data-type="swelling">🔴 Swelling</button>
+              <button class="chip" data-type="tenderness">👆 Tenderness</button>
+              <button class="chip" data-type="sensory">🧠 Sensory Deficit</button>
             </div>
-            <div class="field">
-              <label>Treatment given</label>
-              <textarea class="textarea" style="min-height:72px" placeholder="Techniques, modalities used…">Lumbar mobilisation (grade III-IV), TENS 20min, soft-tissue massage paraspinals, McKenzie extension exercises.</textarea>
+            <div id="assessment-findings" style="margin-top:10px">
+              <!-- Pre-filled: ROM finding -->
+              <div class="finding-row" data-finding="rom">
+                <span class="finding-chip">📐 ROM Limited <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <select class="mini-select"><option>Lumbar</option><option>Cervical</option><option>Shoulder</option><option>Knee</option><option>Hip</option><option>Ankle</option></select>
+                  <select class="mini-select"><option>Flexion</option><option>Extension</option><option>Rotation</option><option>Abduction</option><option>Adduction</option></select>
+                  <input class="mini-input" type="number" value="40" min="0" max="180" />
+                  <span class="unit">°</span>
+                  <span class="vs">/</span>
+                  <input class="mini-input" type="number" value="80" min="0" max="180" />
+                  <span class="unit">° norm</span>
+                </div>
+              </div>
+              <!-- Pre-filled: SLR finding -->
+              <div class="finding-row" data-finding="slr">
+                <span class="finding-chip">🦵 SLR+ <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <select class="mini-select"><option>Left</option><option>Right</option><option>Bilateral</option></select>
+                  <input class="mini-input" type="number" value="60" min="0" max="90" />
+                  <span class="unit">°</span>
+                </div>
+              </div>
+              <!-- Pre-filled: Spasm finding -->
+              <div class="finding-row" data-finding="spasm">
+                <span class="finding-chip">💪 Spasm <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <select class="mini-select"><option>Paraspinals</option><option>Upper trap</option><option>Levator scap</option><option>Quadratus lumb</option><option>Piriformis</option></select>
+                  <select class="mini-select"><option>Mild</option><option selected>Moderate</option><option>Severe</option></select>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <label>Exercises prescribed</label>
-              <textarea class="textarea" style="min-height:72px" placeholder="Home exercise program…">1. Cat-camel stretch 10x2. 2. Knee-to-chest 15x2. 3. Pelvic tilt 15x3. 4. Bridges 10x2.</textarea>
+          </div>
+
+          <!-- 4b: Treatment given -->
+          <div class="field" style="margin-bottom:14px">
+            <label style="margin-bottom:2px">Treatment given</label>
+            <p class="subtle" style="font-size:11px;margin-bottom:8px">Select techniques used, then set details</p>
+            <div class="chip-group" id="treatment-chips">
+              <button class="chip selected">🤲 Mobilisation</button>
+              <button class="chip">🔧 Manipulation</button>
+              <button class="chip selected">⚡ TENS</button>
+              <button class="chip">🔥 Heat</button>
+              <button class="chip">🧊 Ice</button>
+              <button class="chip selected">💆 Massage</button>
+              <button class="chip">📍 Dry Needling</button>
+              <button class="chip">🩹 Taping</button>
+              <button class="chip">🔊 Ultrasound</button>
+              <button class="chip">🏋️ Exercise Therapy</button>
             </div>
+            <div id="treatment-details" style="margin-top:10px">
+              <!-- Pre-filled: Mobilisation -->
+              <div class="finding-row" data-treatment="mobilisation">
+                <span class="finding-chip">🤲 Mobilisation <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <select class="mini-select"><option>Lumbar</option><option>Cervical</option><option>Thoracic</option><option>Shoulder</option><option>Knee</option></select>
+                  <select class="mini-select"><option>Grade I</option><option>Grade II</option><option selected>Grade III-IV</option><option>Grade V</option></select>
+                </div>
+              </div>
+              <!-- Pre-filled: TENS -->
+              <div class="finding-row" data-treatment="tens">
+                <span class="finding-chip">⚡ TENS <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <input class="mini-input" type="number" value="20" min="1" max="60" />
+                  <span class="unit">min</span>
+                </div>
+              </div>
+              <!-- Pre-filled: Massage -->
+              <div class="finding-row" data-treatment="massage">
+                <span class="finding-chip">💆 Massage <button class="remove-btn" title="Remove">×</button></span>
+                <div class="sub-options">
+                  <select class="mini-select"><option>Soft tissue</option><option>Deep tissue</option><option>Myofascial</option><option>Trigger point</option></select>
+                  <select class="mini-select"><option>Paraspinals</option><option>Upper trap</option><option>Glutes</option><option>Hamstrings</option></select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4c: Exercises prescribed -->
+          <div class="field" style="margin-bottom:14px">
+            <label style="margin-bottom:2px">Exercises prescribed</label>
+            <p class="subtle" style="font-size:11px;margin-bottom:8px">Select exercise, set reps × sets</p>
+            <div id="exercise-list">
+              <div class="exercise-row">
+                <select class="ex-name"><option selected>Cat-Camel Stretch</option><option>Knee-to-Chest</option><option>Pelvic Tilt</option><option>Bridges</option><option>Bird-Dog</option><option>McKenzie Extension</option><option>Clamshell</option><option>Wall Sit</option><option>Step-Ups</option><option>Quad Sets</option><option>SLR</option><option>Plank</option></select>
+                <div class="ex-reps">
+                  <input class="mini-input" type="number" value="10" min="1" max="100" />
+                  <span class="times">×</span>
+                  <input class="mini-input" type="number" value="2" min="1" max="10" />
+                </div>
+              </div>
+              <div class="exercise-row">
+                <select class="ex-name"><option>Cat-Camel Stretch</option><option selected>Knee-to-Chest</option><option>Pelvic Tilt</option><option>Bridges</option><option>Bird-Dog</option><option>McKenzie Extension</option><option>Clamshell</option><option>Wall Sit</option><option>Step-Ups</option><option>Quad Sets</option><option>SLR</option><option>Plank</option></select>
+                <div class="ex-reps">
+                  <input class="mini-input" type="number" value="15" min="1" max="100" />
+                  <span class="times">×</span>
+                  <input class="mini-input" type="number" value="2" min="1" max="10" />
+                </div>
+              </div>
+              <div class="exercise-row">
+                <select class="ex-name"><option>Cat-Camel Stretch</option><option>Knee-to-Chest</option><option selected>Pelvic Tilt</option><option>Bridges</option><option>Bird-Dog</option><option>McKenzie Extension</option><option>Clamshell</option><option>Wall Sit</option><option>Step-Ups</option><option>Quad Sets</option><option>SLR</option><option>Plank</option></select>
+                <div class="ex-reps">
+                  <input class="mini-input" type="number" value="15" min="1" max="100" />
+                  <span class="times">×</span>
+                  <input class="mini-input" type="number" value="3" min="1" max="10" />
+                </div>
+              </div>
+              <div class="exercise-row">
+                <select class="ex-name"><option>Cat-Camel Stretch</option><option>Knee-to-Chest</option><option>Pelvic Tilt</option><option selected>Bridges</option><option>Bird-Dog</option><option>McKenzie Extension</option><option>Clamshell</option><option>Wall Sit</option><option>Step-Ups</option><option>Quad Sets</option><option>SLR</option><option>Plank</option></select>
+                <div class="ex-reps">
+                  <input class="mini-input" type="number" value="10" min="1" max="100" />
+                  <span class="times">×</span>
+                  <input class="mini-input" type="number" value="2" min="1" max="10" />
+                </div>
+              </div>
+            </div>
+            <button class="add-row-btn" onclick="addExercise()">+ Add exercise</button>
+          </div>
+
+          <!-- 4d: Clinical notes (free-text fallback) -->
+          <div class="field">
+            <label>Clinical notes</label>
+            <textarea class="textarea" style="min-height:52px;font-size:12px" placeholder="Anything else — patient response, reasoning, precautions…">Patient responded well, reported 30% relief post-session. Anterior pelvic tilt observed — consider core strengthening focus next visit.</textarea>
           </div>
         </div>
 
@@ -222,6 +346,192 @@
         document.getElementById('pain-desc').textContent = 'Current: '+scaleDescs[btn.textContent];
       });
     });
+
+    // === Assessment chip toggles ===
+    const assessTemplates = {
+      rom: `<span class="finding-chip">📐 ROM Limited <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Lumbar</option><option>Cervical</option><option>Shoulder</option><option>Knee</option><option>Hip</option><option>Ankle</option></select>
+          <select class="mini-select"><option>Flexion</option><option>Extension</option><option>Rotation</option><option>Abduction</option><option>Adduction</option></select>
+          <input class="mini-input" type="number" placeholder="°" min="0" max="180" />
+          <span class="unit">°</span><span class="vs">/</span>
+          <input class="mini-input" type="number" placeholder="°" min="0" max="180" />
+          <span class="unit">° norm</span>
+        </div>`,
+      slr: `<span class="finding-chip">🦵 SLR+ <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Left</option><option>Right</option><option>Bilateral</option></select>
+          <input class="mini-input" type="number" placeholder="°" min="0" max="90" />
+          <span class="unit">°</span>
+        </div>`,
+      spasm: `<span class="finding-chip">💪 Spasm <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Paraspinals</option><option>Upper trap</option><option>Levator scap</option><option>Quadratus lumb</option><option>Piriformis</option></select>
+          <select class="mini-select"><option>Mild</option><option>Moderate</option><option>Severe</option></select>
+        </div>`,
+      weakness: `<span class="finding-chip">⚡ Weakness <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>L2</option><option>L3</option><option>L4</option><option>L5</option><option>S1</option></select>
+          <select class="mini-select"><option>3/5</option><option>3+/5</option><option>4/5</option><option>4+/5</option></select>
+        </div>`,
+      swelling: `<span class="finding-chip">🔴 Swelling <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Localised</option><option>Diffuse</option></select>
+          <select class="mini-select"><option>Mild</option><option>Moderate</option><option>Severe</option></select>
+        </div>`,
+      tenderness: `<span class="finding-chip">👆 Tenderness <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Point tenderness</option><option>Referred</option><option>Non-specific</option></select>
+        </div>`,
+      sensory: `<span class="finding-chip">🧠 Sensory Deficit <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Numbness</option><option>Tingling</option><option>Burning</option><option>Decreased light touch</option></select>
+          <select class="mini-select"><option>Dermatome</option><option>Peripheral</option><option>Non-dermatomal</option></select>
+        </div>`
+    };
+
+    document.querySelectorAll('#assess-chips .chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const type = chip.dataset.type;
+        if (chip.classList.contains('selected')) return;
+        chip.classList.add('selected');
+        const row = document.createElement('div');
+        row.className = 'finding-row';
+        row.dataset.finding = type;
+        row.innerHTML = assessTemplates[type];
+        document.getElementById('assessment-findings').appendChild(row);
+        attachRemoveBtn(row);
+      });
+    });
+
+    // === Treatment chip toggles ===
+    const treatTemplates = {
+      'mobilisation': `<span class="finding-chip">🤲 Mobilisation <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Lumbar</option><option>Cervical</option><option>Thoracic</option><option>Shoulder</option><option>Knee</option></select>
+          <select class="mini-select"><option>Grade I</option><option>Grade II</option><option>Grade III-IV</option><option>Grade V</option></select>
+        </div>`,
+      'manipulation': `<span class="finding-chip">🔧 Manipulation <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Lumbar</option><option>Cervical</option><option>Thoracic</option></select>
+        </div>`,
+      'tens': `<span class="finding-chip">⚡ TENS <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <input class="mini-input" type="number" placeholder="min" min="1" max="60" />
+          <span class="unit">min</span>
+        </div>`,
+      'heat': `<span class="finding-chip">🔥 Heat <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Pack</option><option>Hot towel</option><option>Infrared</option></select>
+          <input class="mini-input" type="number" placeholder="min" min="1" max="30" />
+          <span class="unit">min</span>
+        </div>`,
+      'ice': `<span class="finding-chip">🧊 Ice <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Ice pack</option><option>Ice massage</option></select>
+          <input class="mini-input" type="number" placeholder="min" min="1" max="20" />
+          <span class="unit">min</span>
+        </div>`,
+      'massage': `<span class="finding-chip">💆 Massage <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Soft tissue</option><option>Deep tissue</option><option>Myofascial</option><option>Trigger point</option></select>
+          <select class="mini-select"><option>Paraspinals</option><option>Upper trap</option><option>Glutes</option><option>Hamstrings</option></select>
+        </div>`,
+      'dry_needling': `<span class="finding-chip">📍 Dry Needling <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <input class="mini-input" type="number" placeholder="pts" min="1" max="20" />
+          <span class="unit">points</span>
+        </div>`,
+      'taping': `<span class="finding-chip">🩹 Taping <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Kinesio</option><option>Rigid</option><option>Compression</option></select>
+          <select class="mini-select"><option>Lumbar</option><option>Knee</option><option>Shoulder</option><option>Neck</option></select>
+        </div>`,
+      'ultrasound': `<span class="finding-chip">🔊 Ultrasound <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Continuous</option><option>Pulsed</option></select>
+          <input class="mini-input" type="number" placeholder="min" min="1" max="15" />
+          <span class="unit">min</span>
+        </div>`,
+      'exercise_therapy': `<span class="finding-chip">🏋️ Exercise Therapy <button class="remove-btn" title="Remove">×</button></span>
+        <div class="sub-options">
+          <select class="mini-select"><option>Supervised</option><option>Corrective</option><option>Functional</option></select>
+          <input class="mini-input" type="number" placeholder="min" min="1" max="30" />
+          <span class="unit">min</span>
+        </div>`
+    };
+
+    const treatMap = {
+      'mobilisation': 'mobilisation', 'manipulation': 'manipulation', 'tens': 'tens',
+      'heat': 'heat', 'ice': 'ice', 'massage': 'massage', 'dry needling': 'dry_needling',
+      'taping': 'taping', 'ultrasound': 'ultrasound', 'exercise therapy': 'exercise_therapy'
+    };
+
+    document.querySelectorAll('#treatment-chips .chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        if (chip.classList.contains('selected')) return;
+        chip.classList.add('selected');
+        const key = treatMap[chip.textContent.trim().replace(/\s+/g,' ').replace(/^[^\s]+\s/,'').toLowerCase()] || chip.textContent.trim().split(' ').pop().toLowerCase();
+        const row = document.createElement('div');
+        row.className = 'finding-row';
+        row.dataset.treatment = key;
+        row.innerHTML = treatTemplates[key] || `<span class="finding-chip">${chip.textContent} <button class="remove-btn" title="Remove">×</button></span><div class="sub-options"></div>`;
+        document.getElementById('treatment-details').appendChild(row);
+        attachRemoveBtn(row);
+      });
+    });
+
+    // === Remove button logic ===
+    function deselectAssessChip(type) {
+      const chip = document.querySelector(`#assess-chips .chip[data-type="${type}"]`);
+      if (chip) chip.classList.remove('selected');
+    }
+
+    function deselectTreatChip(treatKey) {
+      const chipLabel = Object.entries(treatMap).find(([_,v]) => v === treatKey);
+      if (!chipLabel) return;
+      document.querySelectorAll('#treatment-chips .chip').forEach(c => {
+        const name = c.textContent.trim().replace(/^[^\s]+\s/,'').toLowerCase();
+        if (name === chipLabel[0]) c.classList.remove('selected');
+      });
+    }
+
+    function attachRemoveBtn(row) {
+      row.querySelector('.remove-btn').addEventListener('click', () => {
+        if (row.dataset.finding) deselectAssessChip(row.dataset.finding);
+        if (row.dataset.treatment) deselectTreatChip(row.dataset.treatment);
+        row.remove();
+      });
+    }
+
+    // Attach remove to pre-filled rows
+    document.querySelectorAll('.finding-row').forEach(row => {
+      const btn = row.querySelector('.remove-btn');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          if (row.dataset.finding) deselectAssessChip(row.dataset.finding);
+          if (row.dataset.treatment) deselectTreatChip(row.dataset.treatment);
+          row.remove();
+        });
+      }
+    });
+
+    // === Exercise management ===
+    const exerciseOptions = `<option>Cat-Camel Stretch</option><option>Knee-to-Chest</option><option>Pelvic Tilt</option><option>Bridges</option><option>Bird-Dog</option><option>McKenzie Extension</option><option>Clamshell</option><option>Wall Sit</option><option>Step-Ups</option><option>Quad Sets</option><option>SLR</option><option>Plank</option>`;
+
+    window.addExercise = function() {
+      const row = document.createElement('div');
+      row.className = 'exercise-row';
+      row.innerHTML = `<select class="ex-name">${exerciseOptions}</select>
+        <div class="ex-reps">
+          <input class="mini-input" type="number" value="10" min="1" max="100" />
+          <span class="times">×</span>
+          <input class="mini-input" type="number" value="2" min="1" max="10" />
+        </div>
+        <button class="remove-btn" title="Remove">×</button>`;
+      document.getElementById('exercise-list').appendChild(row);
+      row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
+    };
   </script>
 </body>
 </html>

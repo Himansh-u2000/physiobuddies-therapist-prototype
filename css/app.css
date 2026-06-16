@@ -295,6 +295,213 @@ h3 { font: 700 14px/1.25 var(--font-display); }
 .chip.neutral  { color: var(--muted); background: oklch(96% .008 240); border-color: var(--border); }
 .chip.dark     { color: white; background: var(--accent); border-color: transparent; }
 
+/* ---- Selectable chip groups (treatment form) ---- */
+.chip-group { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip-group .chip {
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--fg);
+  transition: all .15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip-group .chip:hover { border-color: var(--accent); }
+.chip-group .chip.selected {
+  border-color: var(--accent);
+  background: oklch(95% .04 236);
+  color: var(--accent);
+}
+.chip-group .chip.selected::before {
+  content: '✓ ';
+  font-size: 10px;
+}
+
+/* ---- Finding rows (assessment cards) ---- */
+.finding-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: oklch(98.5% .006 240);
+  margin-bottom: 8px;
+}
+.finding-row:last-child { margin-bottom: 0; }
+.finding-row .finding-chip {
+  flex-shrink: 0;
+  min-height: 30px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1.5px solid var(--accent);
+  background: oklch(95% .04 236);
+  color: var(--accent);
+  white-space: nowrap;
+}
+.finding-row .finding-chip .remove-btn {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: oklch(35% .085 236 / .12);
+  color: var(--accent);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 2px;
+}
+.finding-row .sub-options {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.finding-row .sub-options .mini-select {
+  min-height: 30px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--fg);
+  outline: none;
+  cursor: pointer;
+  max-width: 110px;
+}
+.finding-row .sub-options .mini-input {
+  width: 52px;
+  min-height: 30px;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg);
+  text-align: center;
+  outline: none;
+}
+.finding-row .sub-options .mini-input:focus,
+.finding-row .sub-options .mini-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px oklch(35% .085 236 / .10);
+}
+.finding-row .sub-options .unit {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 700;
+}
+.finding-row .sub-options .vs {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* ---- Exercise rows ---- */
+.exercise-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: oklch(98.5% .006 240);
+  margin-bottom: 8px;
+}
+.exercise-row:last-child { margin-bottom: 0; }
+.exercise-row .ex-name {
+  flex: 1;
+  min-width: 0;
+  min-height: 30px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--fg);
+  outline: none;
+}
+.exercise-row .ex-name:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px oklch(35% .085 236 / .10);
+}
+.exercise-row .ex-reps {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.exercise-row .ex-reps .mini-input {
+  width: 36px;
+  min-height: 30px;
+  padding: 3px 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg);
+  text-align: center;
+  outline: none;
+}
+.exercise-row .ex-reps .mini-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px oklch(35% .085 236 / .10);
+}
+.exercise-row .ex-reps .times {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+}
+.exercise-row .remove-btn {
+  width: 24px; height: 24px;
+  border-radius: 8px;
+  border: none;
+  background: oklch(96% .04 28);
+  color: var(--danger);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+/* ---- Add button (for findings / exercises) ---- */
+.add-row-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 34px;
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  margin-top: 8px;
+}
+.add-row-btn:hover { border-color: var(--accent); background: oklch(97% .03 236); }
+.add-row-btn svg { width: 14px; height: 14px; }
+
 /* ---- Buttons ---- */
 .btn {
   min-height: 46px;
